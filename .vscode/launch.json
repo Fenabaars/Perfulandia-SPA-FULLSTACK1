@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioUsuarioApplication<microservicio-usuario>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.perfulandia.microservicio_usuario.MicroservicioUsuarioApplication",
+            "projectName": "microservicio-usuario",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
