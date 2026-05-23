@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SucursalApplication",
+            "request": "launch",
+            "mainClass": "com.perfulandia.sucursal.SucursalApplication",
+            "projectName": "microservicio-sucursal"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-MicroservicioUsuarioApplication<microservicio-usuario>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
