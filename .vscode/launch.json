@@ -2,10 +2,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "SucursalApplication",
+            "name": "ProveedorApplication",
             "request": "launch",
-            "mainClass": "com.perfulandia.sucursal.SucursalApplication",
-            "projectName": "microservicio-sucursal"
+            "mainClass": "com.perfulandia.proveedor.ProveedorApplication",
+            "projectName": "proveedor"
         },
         {
             "type": "java",
