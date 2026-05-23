@@ -1,0 +1,490 @@
+{
+	"info": {
+		"_postman_id": "perfulandia-carrito-collection",
+		"name": "Perfulandia - Microservicio Carrito",
+		"description": "Colección completa de endpoints del microservicio-carrito (H16, H17, H18, H19). Puerto: 8085\n\n**Historias cubiertas:**\n- H16: Gestión de Carrito de Compras\n- H17: Confirmación de Pedido Web\n- H18: Registro de Venta Física\n- H19: Historial de Compras",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8085",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "H16 - Carrito de Compras",
+			"description": "Historia 16: Como Cliente, quiero agregar y quitar productos de mi carrito de compras, para preparar mi pedido antes de pagar.",
+			"item": [
+				{
+					"name": "Obtener carrito por usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/carrito/usuario/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "carrito", "usuario", "1"]
+						},
+						"description": "GET /api/carrito/usuario/{usuarioId}\n\nRetorna todos los ítems del carrito del usuario indicado."
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar producto al carrito",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuarioId\": 1,\n    \"perfumeId\": 2,\n    \"nombrePerfume\": \"Dior Sauvage\",\n    \"precio\": 75990.0,\n    \"cantidad\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/carrito",
+							"host": ["{{base_url}}"],
+							"path": ["api", "carrito"]
+						},
+						"description": "POST /api/carrito\n\nAgrega un producto al carrito. Si el perfume ya existe en el carrito del usuario, incrementa la cantidad automáticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar otro producto al carrito",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuarioId\": 1,\n    \"perfumeId\": 5,\n    \"nombrePerfume\": \"Chanel No. 5\",\n    \"precio\": 89990.0,\n    \"cantidad\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/carrito",
+							"host": ["{{base_url}}"],
+							"path": ["api", "carrito"]
+						},
+						"description": "Agrega un segundo producto distinto al carrito."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar cantidad de un ítem",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/carrito/1?cantidad=3",
+							"host": ["{{base_url}}"],
+							"path": ["api", "carrito", "1"],
+							"query": [
+								{
+									"key": "cantidad",
+									"value": "3"
+								}
+							]
+						},
+						"description": "PUT /api/carrito/{id}?cantidad={nuevaCantidad}\n\nActualiza la cantidad del ítem con ID=1 a 3 unidades."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar un ítem del carrito",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/carrito/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "carrito", "1"]
+						},
+						"description": "DELETE /api/carrito/{id}\n\nElimina el ítem con ID=1 del carrito."
+					},
+					"response": []
+				},
+				{
+					"name": "Vaciar todo el carrito de un usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/carrito/usuario/1/vaciar",
+							"host": ["{{base_url}}"],
+							"path": ["api", "carrito", "usuario", "1", "vaciar"]
+						},
+						"description": "DELETE /api/carrito/usuario/{usuarioId}/vaciar\n\nVacía completamente el carrito del usuario (se usa después de confirmar un pedido)."
+					},
+					"response": []
+				},
+				{
+					"name": "[ERROR] Agregar ítem sin campos obligatorios",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuarioId\": 1,\n    \"cantidad\": 0\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/carrito",
+							"host": ["{{base_url}}"],
+							"path": ["api", "carrito"]
+						},
+						"description": "Prueba de validación: debe retornar 400 Bad Request con los errores de validación."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "H17 - Confirmación de Pedido Web",
+			"description": "Historia 17: Como Cliente, quiero confirmar mi pedido web, seleccionando método de pago y envío, para concretar la compra.",
+			"item": [
+				{
+					"name": "Listar todos los pedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos"]
+						},
+						"description": "GET /api/pedidos\n\nRetorna todos los pedidos registrados en el sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener pedido por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos", "1"]
+						},
+						"description": "GET /api/pedidos/{id}\n\nRetorna el pedido con ID=1 incluyendo sus detalles."
+					},
+					"response": []
+				},
+				{
+					"name": "Confirmar pedido web (con tarjeta y domicilio)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuarioId\": 1,\n    \"metodoPago\": \"TARJETA\",\n    \"metodoEnvio\": \"DOMICILIO\",\n    \"direccionEnvio\": \"Av. Providencia 1234, Santiago\",\n    \"detalles\": [\n        {\n            \"perfumeId\": 1,\n            \"nombrePerfume\": \"Chanel No. 5\",\n            \"precioUnitario\": 89990.0,\n            \"cantidad\": 2\n        },\n        {\n            \"perfumeId\": 3,\n            \"nombrePerfume\": \"Dior Sauvage\",\n            \"precioUnitario\": 75990.0,\n            \"cantidad\": 1\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/pedidos",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos"]
+						},
+						"description": "POST /api/pedidos\n\nCrea un pedido web. El total se calcula automáticamente sumando los subtotales de cada detalle. El estado inicial es PENDIENTE."
+					},
+					"response": []
+				},
+				{
+					"name": "Confirmar pedido web (con transferencia y retiro en tienda)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuarioId\": 2,\n    \"metodoPago\": \"TRANSFERENCIA\",\n    \"metodoEnvio\": \"RETIRO_TIENDA\",\n    \"direccionEnvio\": \"Sucursal Las Condes, Santiago\",\n    \"detalles\": [\n        {\n            \"perfumeId\": 5,\n            \"nombrePerfume\": \"Giorgio Armani Acqua di Gio\",\n            \"precioUnitario\": 82990.0,\n            \"cantidad\": 1\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/pedidos",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos"]
+						},
+						"description": "Ejemplo con retiro en tienda y pago por transferencia."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar estado del pedido → CONFIRMADO",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos/1/estado?estado=CONFIRMADO",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos", "1", "estado"],
+							"query": [
+								{
+									"key": "estado",
+									"value": "CONFIRMADO"
+								}
+							]
+						},
+						"description": "PATCH /api/pedidos/{id}/estado?estado={nuevoEstado}\n\nEstados válidos: PENDIENTE, CONFIRMADO, ENVIADO, ENTREGADO, CANCELADO"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar estado del pedido → ENVIADO",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos/1/estado?estado=ENVIADO",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos", "1", "estado"],
+							"query": [
+								{
+									"key": "estado",
+									"value": "ENVIADO"
+								}
+							]
+						},
+						"description": "Cambia el estado del pedido a ENVIADO."
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelar pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos/2",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos", "2"]
+						},
+						"description": "DELETE /api/pedidos/{id}\n\nCancela el pedido (cambia estado a CANCELADO). Retorna 400 si el pedido ya fue ENTREGADO."
+					},
+					"response": []
+				},
+				{
+					"name": "[ERROR] Confirmar pedido sin detalles",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuarioId\": 1,\n    \"metodoPago\": \"TARJETA\",\n    \"metodoEnvio\": \"DOMICILIO\",\n    \"direccionEnvio\": \"Av. Test 123\",\n    \"detalles\": []\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/pedidos",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos"]
+						},
+						"description": "Prueba de validación: debe retornar 400 ya que detalles no puede estar vacío."
+					},
+					"response": []
+				},
+				{
+					"name": "[ERROR] Pedido no encontrado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos/999",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos", "999"]
+						},
+						"description": "Debe retornar 404 Not Found."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "H18 - Registro de Venta Física",
+			"description": "Historia 18: Como Empleado, quiero registrar una venta física en el sistema de la sucursal, para que la transacción quede guardada.",
+			"item": [
+				{
+					"name": "Listar todas las ventas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/ventas",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ventas"]
+						},
+						"description": "GET /api/ventas\n\nRetorna todas las ventas físicas registradas."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener venta por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/ventas/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ventas", "1"]
+						},
+						"description": "GET /api/ventas/{id}\n\nRetorna la venta con ID=1 incluyendo sus detalles."
+					},
+					"response": []
+				},
+				{
+					"name": "Ventas por sucursal",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/ventas/sucursal/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ventas", "sucursal", "1"]
+						},
+						"description": "GET /api/ventas/sucursal/{sucursalId}\n\nRetorna todas las ventas de la sucursal ID=1, ordenadas por fecha descendente."
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar venta física (pago en efectivo)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sucursalId\": 1,\n    \"empleadoId\": 2,\n    \"metodoPago\": \"EFECTIVO\",\n    \"detalles\": [\n        {\n            \"perfumeId\": 1,\n            \"nombrePerfume\": \"Chanel No. 5\",\n            \"precioUnitario\": 89990.0,\n            \"cantidad\": 1\n        },\n        {\n            \"perfumeId\": 4,\n            \"nombrePerfume\": \"Versace Eros\",\n            \"precioUnitario\": 65990.0,\n            \"cantidad\": 2\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ventas",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ventas"]
+						},
+						"description": "POST /api/ventas\n\nRegistra una venta física en la sucursal. La fecha y el total se calculan automáticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar venta física (pago con tarjeta)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sucursalId\": 2,\n    \"empleadoId\": 3,\n    \"metodoPago\": \"TARJETA\",\n    \"detalles\": [\n        {\n            \"perfumeId\": 2,\n            \"nombrePerfume\": \"Giorgio Armani Acqua di Gio\",\n            \"precioUnitario\": 82990.0,\n            \"cantidad\": 3\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ventas",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ventas"]
+						},
+						"description": "Venta de múltiples unidades del mismo perfume con tarjeta."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar registro de venta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/ventas/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ventas", "1"]
+						},
+						"description": "DELETE /api/ventas/{id}\n\nElimina el registro de venta con ID=1."
+					},
+					"response": []
+				},
+				{
+					"name": "[ERROR] Registrar venta sin empleadoId",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sucursalId\": 1,\n    \"metodoPago\": \"EFECTIVO\",\n    \"detalles\": [\n        {\n            \"perfumeId\": 1,\n            \"nombrePerfume\": \"Chanel No. 5\",\n            \"precioUnitario\": 89990.0,\n            \"cantidad\": 1\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/ventas",
+							"host": ["{{base_url}}"],
+							"path": ["api", "ventas"]
+						},
+						"description": "Prueba de validación: debe retornar 400 porque empleadoId es obligatorio."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "H19 - Historial de Compras",
+			"description": "Historia 19: Como Cliente, quiero consultar mi historial de compras y estado de pedidos actuales, para llevar control de mis adquisiciones.",
+			"item": [
+				{
+					"name": "Historial de compras del usuario 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos/usuario/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos", "usuario", "1"]
+						},
+						"description": "GET /api/pedidos/usuario/{usuarioId}\n\nRetorna todos los pedidos del usuario ID=1 ordenados del más reciente al más antiguo. Incluye el estado actual de cada pedido."
+					},
+					"response": []
+				},
+				{
+					"name": "Historial de compras del usuario 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/pedidos/usuario/2",
+							"host": ["{{base_url}}"],
+							"path": ["api", "pedidos", "usuario", "2"]
+						},
+						"description": "Historial de un segundo usuario. Retorna lista vacía [] si no tiene pedidos."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
