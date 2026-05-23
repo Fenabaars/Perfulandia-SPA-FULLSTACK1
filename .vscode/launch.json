@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MicroservicioInventarioApplication",
+            "request": "launch",
+            "mainClass": "com.perfulandia.inventario.MicroservicioInventarioApplication",
+            "projectName": "microservicio-inventario"
+        },
+        {
+            "type": "java",
             "name": "ProveedorApplication",
             "request": "launch",
             "mainClass": "com.perfulandia.proveedor.ProveedorApplication",
@@ -14,6 +21,26 @@
             "cwd": "${workspaceFolder}",
             "mainClass": "com.perfulandia.microservicio_usuario.MicroservicioUsuarioApplication",
             "projectName": "microservicio-usuario",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioCatalogoApplication<microservicio-catalogo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.perfulandia.microservicio_catalogo.MicroservicioCatalogoApplication",
+            "projectName": "microservicio-catalogo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SucursalApplication<microservicio-sucursal>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.perfulandia.sucursal.SucursalApplication",
+            "projectName": "microservicio-sucursal",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
