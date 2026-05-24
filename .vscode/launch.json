@@ -2,10 +2,19 @@
     "configurations": [
         {
             "type": "java",
+            "name": "PromocionApplication",
+            "request": "launch",
+            "mainClass": "com.perfulandia.promocion.PromocionApplication",
+            "projectName": "microservicio-promocion",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=55828 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=microservicio-promocion"
+        },
+        {
+            "type": "java",
             "name": "CarritoApplication",
             "request": "launch",
             "mainClass": "com.perfulandia.carrito.CarritoApplication",
-            "projectName": "microservicio-carrito"
+            "projectName": "microservicio-carrito",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=55848 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=microservicio-carrito"
         },
         {
             "type": "java",
@@ -20,6 +29,36 @@
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "com.perfulandia.microservicio_usuario.MicroservicioUsuarioApplication",
+            "projectName": "microservicio-usuario",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MicroservicioCatalogoApplication<microservicio-catalogo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.perfulandia.microservicio_catalogo.MicroservicioCatalogoApplication",
+            "projectName": "microservicio-catalogo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SucursalApplication<microservicio-sucursal>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.perfulandia.sucursal.SucursalApplication",
+            "projectName": "microservicio-sucursal",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-UsuarioApplication<microservicio-usuario>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.perfulandia.usuario.UsuarioApplication",
             "projectName": "microservicio-usuario",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
