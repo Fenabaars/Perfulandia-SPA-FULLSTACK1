@@ -2,10 +2,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "MicroservicioInventarioApplication",
+            "name": "CarritoApplication",
             "request": "launch",
-            "mainClass": "com.perfulandia.inventario.MicroservicioInventarioApplication",
-            "projectName": "microservicio-inventario"
+            "mainClass": "com.perfulandia.carrito.CarritoApplication",
+            "projectName": "microservicio-carrito"
         },
         {
             "type": "java",
