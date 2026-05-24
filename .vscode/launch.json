@@ -52,6 +52,7 @@
             "projectName": "microservicio-sucursal",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+<<<<<<< HEAD
         },
         {
             "type": "java",
@@ -62,6 +63,8 @@
             "projectName": "microservicio-usuario",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+=======
+>>>>>>> 0f6fe7e13bc16a3fa65157c17467419f2598c426
         }
     ]
 }
