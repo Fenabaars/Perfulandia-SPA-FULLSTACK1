@@ -25,6 +25,11 @@ public class InventarioController {
         return new ResponseEntity<>(service.ingresarStock(dto), HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Inventario>> listarTodos() {
+        return ResponseEntity.ok(service.listarTodos());
+    }
+
     @GetMapping("/consulta")
     public ResponseEntity<Inventario> consultarStock(@RequestParam Long perfumeId, @RequestParam Long sucursalId) {
         return ResponseEntity.ok(service.consultarStock(perfumeId, sucursalId));

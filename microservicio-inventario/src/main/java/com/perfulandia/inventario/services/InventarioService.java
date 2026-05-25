@@ -69,6 +69,10 @@ public class InventarioService {
         return repository.findBySucursalId(sucursalId);
     }
 
+    public List<Inventario> listarTodos() {
+        return repository.findAll();
+    }
+
     public Inventario descontarStock(Long perfumeId, Long sucursalId, Integer cantidadADescontar) {
         Inventario inv = consultarStock(perfumeId, sucursalId);
         
