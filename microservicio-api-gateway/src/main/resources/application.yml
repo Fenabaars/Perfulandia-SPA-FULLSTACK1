@@ -1,0 +1,60 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: microservicio-api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+      routes:
+        - id: microservicio-carrito
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/carritos/**, /api/pedidos/**
+        - id: microservicio-catalogo
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/catalogo/**, /api/productos/**, /api/categorias/**, /api/marcas/**
+        - id: microservicio-cliente
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/clientes/**
+        - id: microservicio-inventario
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/inventario/**
+        - id: microservicio-promocion
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/promociones/**
+        - id: microservicio-proveedor
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/proveedores/**
+        - id: microservicio-resenas
+          uri: http://localhost:8087
+          predicates:
+            - Path=/api/resenas/**
+        - id: microservicio-sucursal
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/sucursales/**
+        - id: microservicio-usuario
+          uri: http://localhost:8089
+          predicates:
+            - Path=/api/usuarios/**, /api/auth/**
+        - id: microservicio-envios
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/envios/**

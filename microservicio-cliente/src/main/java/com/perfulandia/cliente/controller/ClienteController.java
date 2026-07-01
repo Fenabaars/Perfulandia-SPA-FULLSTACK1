@@ -16,27 +16,26 @@ import java.util.Optional;
 public class ClienteController {
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    private com.perfulandia.cliente.service.ClienteService clienteService;
 
     // Crear un nuevo cliente
     @PostMapping
     public ResponseEntity<Cliente> createCliente(@RequestBody Cliente cliente) {
-        cliente.setFechaRegistro(LocalDate.now());
-        Cliente savedCliente = clienteRepository.save(cliente);
+        Cliente savedCliente = clienteService.createCliente(cliente);
         return new ResponseEntity<>(savedCliente, HttpStatus.CREATED);
     }
 
     // Devolver la lista de todos los clientes
     @GetMapping
     public ResponseEntity<List<Cliente>> getAllClientes() {
-        List<Cliente> clientes = clienteRepository.findAll();
+        List<Cliente> clientes = clienteService.getAllClientes();
         return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 
     // Devolver los datos de un cliente específico por su ID
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> getClienteById(@PathVariable Long id) {
-        Optional<Cliente> cliente = clienteRepository.findById(id);
+        Optional<Cliente> cliente = clienteService.getClienteById(id);
         return cliente.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -44,7 +43,7 @@ public class ClienteController {
     // Buscar y devolver un cliente específico por su correo electrónico
     @GetMapping("/email/{email}")
     public ResponseEntity<Cliente> getClienteByEmail(@PathVariable String email) {
-        Optional<Cliente> cliente = clienteRepository.findByEmail(email);
+        Optional<Cliente> cliente = clienteService.getClienteByEmail(email);
         return cliente.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -52,30 +51,15 @@ public class ClienteController {
     // Actualizar los datos de un cliente (ej. teléfono o dirección)
     @PutMapping("/{id}")
     public ResponseEntity<Cliente> updateCliente(@PathVariable Long id, @RequestBody Cliente clienteDetails) {
-        Optional<Cliente> optionalCliente = clienteRepository.findById(id);
-        
-        if (optionalCliente.isPresent()) {
-            Cliente existingCliente = optionalCliente.get();
-            // Actualizar campos permitidos
-            if (clienteDetails.getNombre() != null) existingCliente.setNombre(clienteDetails.getNombre());
-            if (clienteDetails.getApellido() != null) existingCliente.setApellido(clienteDetails.getApellido());
-            if (clienteDetails.getTelefono() != null) existingCliente.setTelefono(clienteDetails.getTelefono());
-            if (clienteDetails.getDireccion() != null) existingCliente.setDireccion(clienteDetails.getDireccion());
-            // No actualizamos email a menos que sea seguro/requerido, pero se podría añadir si lo piden
-            
-            Cliente updatedCliente = clienteRepository.save(existingCliente);
-            return new ResponseEntity<>(updatedCliente, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Optional<Cliente> updatedCliente = clienteService.updateCliente(id, clienteDetails);
+        return updatedCliente.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     // Eliminar a un cliente del sistema
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
-        Optional<Cliente> cliente = clienteRepository.findById(id);
-        if (cliente.isPresent()) {
-            clienteRepository.delete(cliente.get());
+        if (clienteService.deleteCliente(id)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
