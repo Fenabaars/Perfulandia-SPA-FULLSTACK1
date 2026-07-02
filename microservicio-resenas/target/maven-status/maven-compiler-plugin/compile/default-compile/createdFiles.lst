@@ -1,0 +1,5 @@
+com\perfulandia\resenas\ResenasApplication.class
+com\perfulandia\resenas\entity\Resena.class
+com\perfulandia\resenas\service\ResenaService.class
+com\perfulandia\resenas\controller\ResenaController.class
+com\perfulandia\resenas\repository\ResenaRepository.class

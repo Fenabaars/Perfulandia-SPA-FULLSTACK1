@@ -1,0 +1,5 @@
+com\perfulandia\envios\services\EnvioService.class
+com\perfulandia\envios\models\entities\Envio.class
+com\perfulandia\envios\repositories\EnvioRepository.class
+com\perfulandia\envios\controllers\EnvioController.class
+com\perfulandia\envios\EnviosApplication.class

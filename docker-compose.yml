@@ -16,7 +16,7 @@ services:
     build: ./microservicio-api-gateway
     container_name: perfulandia-api-gateway
     ports:
-      - "8080:8080"
+      - "9090:8080"
     depends_on:
       - mysql
 
@@ -24,7 +24,7 @@ services:
     build: ./microservicio-catalogo
     container_name: perfulandia-catalogo
     ports:
-      - "8081:8081"
+      - "9091:8081"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/perfulandia_catalogo?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
