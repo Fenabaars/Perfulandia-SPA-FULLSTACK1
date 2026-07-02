@@ -21,7 +21,7 @@ spring:
         - id: microservicio-carrito
           uri: http://carrito:8086
           predicates:
-            - Path=/api/carritos/**, /api/pedidos/**
+            - Path=/api/carrito/**, /api/carritos/**, /api/pedidos/**, /api/ventas/**
         - id: microservicio-catalogo
           uri: http://catalogo:8081
           predicates:
@@ -29,7 +29,7 @@ spring:
         - id: microservicio-cliente
           uri: http://cliente:8089
           predicates:
-            - Path=/api/clientes/**
+            - Path=/api/clientes/**, /api/customers/**
         - id: microservicio-inventario
           uri: http://inventario:8085
           predicates:
@@ -37,7 +37,7 @@ spring:
         - id: microservicio-promocion
           uri: http://promocion:8090
           predicates:
-            - Path=/api/promociones/**
+            - Path=/api/promociones/**, /api/promotions/**
         - id: microservicio-proveedor
           uri: http://proveedor:8084
           predicates:
@@ -45,7 +45,7 @@ spring:
         - id: microservicio-resenas
           uri: http://resenas:8088
           predicates:
-            - Path=/api/resenas/**
+            - Path=/api/resenas/**, /api/reviews/**
         - id: microservicio-sucursal
           uri: http://sucursal:8083
           predicates:
