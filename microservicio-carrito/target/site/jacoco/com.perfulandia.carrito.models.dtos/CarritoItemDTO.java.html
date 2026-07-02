@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CarritoItemDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservicio-carrito</a> &gt; <a href="index.source.html" class="el_package">com.perfulandia.carrito.models.dtos</a> &gt; <span class="el_source">CarritoItemDTO.java</span></div><h1>CarritoItemDTO.java</h1><pre class="source lang-java linenums">package com.perfulandia.carrito.models.dtos;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+<span class="nc" id="L8">public class CarritoItemDTO {</span>
+
+    @NotNull(message = &quot;El ID de usuario es obligatorio&quot;)
+    private Long usuarioId;
+
+    @NotNull(message = &quot;El ID del perfume es obligatorio&quot;)
+    private Long perfumeId;
+
+    @NotBlank(message = &quot;El nombre del perfume es obligatorio&quot;)
+    private String nombrePerfume;
+
+    @NotNull(message = &quot;El precio es obligatorio&quot;)
+    @Positive(message = &quot;El precio debe ser mayor que cero&quot;)
+    private Double precio;
+
+    @NotNull(message = &quot;La cantidad es obligatoria&quot;)
+    @Min(value = 1, message = &quot;La cantidad mínima es 1&quot;)
+    private Integer cantidad;
+
+<span class="nc" id="L27">    public Long getUsuarioId() { return usuarioId; }</span>
+<span class="nc" id="L28">    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }</span>
+
+<span class="nc" id="L30">    public Long getPerfumeId() { return perfumeId; }</span>
+<span class="nc" id="L31">    public void setPerfumeId(Long perfumeId) { this.perfumeId = perfumeId; }</span>
+
+<span class="nc" id="L33">    public String getNombrePerfume() { return nombrePerfume; }</span>
+<span class="nc" id="L34">    public void setNombrePerfume(String nombrePerfume) { this.nombrePerfume = nombrePerfume; }</span>
+
+<span class="nc" id="L36">    public Double getPrecio() { return precio; }</span>
+<span class="nc" id="L37">    public void setPrecio(Double precio) { this.precio = precio; }</span>
+
+<span class="nc" id="L39">    public Integer getCantidad() { return cantidad; }</span>
+<span class="nc" id="L40">    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

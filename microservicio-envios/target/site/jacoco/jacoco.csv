@@ -1,0 +1,4 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+microservicio-envios,com.perfulandia.envios.controllers,EnvioController,39,0,0,0,8,0,6,0,6,0
+microservicio-envios,com.perfulandia.envios.services,EnvioService,19,47,0,0,2,11,3,5,3,5
+microservicio-envios,com.perfulandia.envios,EnviosApplication,8,0,0,0,3,0,2,0,2,0

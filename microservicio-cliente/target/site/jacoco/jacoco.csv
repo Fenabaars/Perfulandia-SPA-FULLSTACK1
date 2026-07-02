@@ -1,0 +1,5 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+microservicio-cliente,com.perfulandia.cliente.service,ClienteService,46,47,7,5,9,11,10,3,4,3
+microservicio-cliente,com.perfulandia.cliente.model,Cliente,277,39,62,0,3,5,39,11,8,11
+microservicio-cliente,com.perfulandia.cliente,ClienteApplication,8,0,0,0,3,0,2,0,2,0
+microservicio-cliente,com.perfulandia.cliente.controller,ClienteController,109,0,2,0,17,0,14,0,13,0

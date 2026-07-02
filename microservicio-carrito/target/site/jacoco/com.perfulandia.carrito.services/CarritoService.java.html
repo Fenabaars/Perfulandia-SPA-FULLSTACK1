@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CarritoService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservicio-carrito</a> &gt; <a href="index.source.html" class="el_package">com.perfulandia.carrito.services</a> &gt; <span class="el_source">CarritoService.java</span></div><h1>CarritoService.java</h1><pre class="source lang-java linenums">package com.perfulandia.carrito.services;
+
+import com.perfulandia.carrito.models.dtos.CarritoItemDTO;
+import com.perfulandia.carrito.models.entities.CarritoItem;
+import com.perfulandia.carrito.repositories.CarritoItemRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class CarritoService {
+
+<span class="nc" id="L16">    private static final Logger logger = LoggerFactory.getLogger(CarritoService.class);</span>
+    private final CarritoItemRepository repository;
+
+<span class="nc" id="L19">    public CarritoService(CarritoItemRepository repository) {</span>
+<span class="nc" id="L20">        this.repository = repository;</span>
+<span class="nc" id="L21">    }</span>
+
+    // H16: Obtener el carrito de un usuario
+    public List&lt;CarritoItem&gt; obtenerCarritoPorUsuario(Long usuarioId) {
+<span class="nc" id="L25">        logger.info(&quot;Obteniendo carrito del usuario ID: {}&quot;, usuarioId);</span>
+<span class="nc" id="L26">        return repository.findByUsuarioId(usuarioId);</span>
+    }
+
+    // H16: Agregar producto al carrito
+    public CarritoItem agregarItem(CarritoItemDTO dto) {
+<span class="nc" id="L31">        logger.info(&quot;Agregando perfume ID {} al carrito del usuario ID: {}&quot;, dto.getPerfumeId(), dto.getUsuarioId());</span>
+
+        // Si el perfume ya existe en el carrito, incrementar cantidad
+<span class="nc" id="L34">        List&lt;CarritoItem&gt; items = repository.findByUsuarioId(dto.getUsuarioId());</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        for (CarritoItem item : items) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            if (item.getPerfumeId().equals(dto.getPerfumeId())) {</span>
+<span class="nc" id="L37">                logger.info(&quot;Perfume ya en carrito, incrementando cantidad&quot;);</span>
+<span class="nc" id="L38">                item.setCantidad(item.getCantidad() + dto.getCantidad());</span>
+<span class="nc" id="L39">                return repository.save(item);</span>
+            }
+<span class="nc" id="L41">        }</span>
+
+<span class="nc" id="L43">        CarritoItem nuevoItem = new CarritoItem();</span>
+<span class="nc" id="L44">        nuevoItem.setUsuarioId(dto.getUsuarioId());</span>
+<span class="nc" id="L45">        nuevoItem.setPerfumeId(dto.getPerfumeId());</span>
+<span class="nc" id="L46">        nuevoItem.setNombrePerfume(dto.getNombrePerfume());</span>
+<span class="nc" id="L47">        nuevoItem.setPrecio(dto.getPrecio());</span>
+<span class="nc" id="L48">        nuevoItem.setCantidad(dto.getCantidad());</span>
+<span class="nc" id="L49">        return repository.save(nuevoItem);</span>
+    }
+
+    // H16: Actualizar cantidad de un ítem
+    public CarritoItem actualizarCantidad(Long id, Integer nuevaCantidad) {
+<span class="nc" id="L54">        CarritoItem item = repository.findById(id).orElseThrow(() -&gt; {</span>
+<span class="nc" id="L55">            logger.error(&quot;Item de carrito no encontrado con ID: {}&quot;, id);</span>
+<span class="nc" id="L56">            return new RuntimeException(&quot;Item no encontrado en el carrito&quot;);</span>
+        });
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (nuevaCantidad &lt; 1) {</span>
+<span class="nc" id="L59">            throw new RuntimeException(&quot;La cantidad mínima es 1&quot;);</span>
+        }
+<span class="nc" id="L61">        logger.info(&quot;Actualizando cantidad del item ID {} a {}&quot;, id, nuevaCantidad);</span>
+<span class="nc" id="L62">        item.setCantidad(nuevaCantidad);</span>
+<span class="nc" id="L63">        return repository.save(item);</span>
+    }
+
+    // H16: Quitar un producto del carrito
+    public void eliminarItem(Long id) {
+<span class="nc" id="L68">        CarritoItem item = repository.findById(id).orElseThrow(() -&gt; {</span>
+<span class="nc" id="L69">            logger.error(&quot;Item de carrito no encontrado con ID: {}&quot;, id);</span>
+<span class="nc" id="L70">            return new RuntimeException(&quot;Item no encontrado en el carrito&quot;);</span>
+        });
+<span class="nc" id="L72">        repository.delete(item);</span>
+<span class="nc" id="L73">        logger.info(&quot;Item ID {} eliminado del carrito&quot;, id);</span>
+<span class="nc" id="L74">    }</span>
+
+    // H16: Vaciar todo el carrito (después de confirmar pedido)
+    @Transactional
+    public void vaciarCarrito(Long usuarioId) {
+<span class="nc" id="L79">        logger.info(&quot;Vaciando carrito del usuario ID: {}&quot;, usuarioId);</span>
+<span class="nc" id="L80">        repository.deleteByUsuarioId(usuarioId);</span>
+<span class="nc" id="L81">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

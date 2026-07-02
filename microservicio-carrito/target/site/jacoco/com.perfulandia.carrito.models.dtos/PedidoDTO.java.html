@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PedidoDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservicio-carrito</a> &gt; <a href="index.source.html" class="el_package">com.perfulandia.carrito.models.dtos</a> &gt; <span class="el_source">PedidoDTO.java</span></div><h1>PedidoDTO.java</h1><pre class="source lang-java linenums">package com.perfulandia.carrito.models.dtos;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
+
+<span class="fc" id="L9">public class PedidoDTO {</span>
+
+    @NotNull(message = &quot;El ID de usuario es obligatorio&quot;)
+    private Long usuarioId;
+
+    @NotBlank(message = &quot;El método de pago es obligatorio&quot;)
+    private String metodoPago; // TARJETA, TRANSFERENCIA, EFECTIVO
+
+    @NotBlank(message = &quot;El método de envío es obligatorio&quot;)
+    private String metodoEnvio; // DOMICILIO, RETIRO_TIENDA
+
+    @NotBlank(message = &quot;La dirección de envío es obligatoria&quot;)
+    private String direccionEnvio;
+
+    @NotEmpty(message = &quot;El pedido debe tener al menos un producto&quot;)
+    private List&lt;DetallePedidoDTO&gt; detalles;
+
+<span class="fc" id="L26">    public Long getUsuarioId() { return usuarioId; }</span>
+<span class="fc" id="L27">    public void setUsuarioId(Long usuarioId) { this.usuarioId = usuarioId; }</span>
+
+<span class="fc" id="L29">    public String getMetodoPago() { return metodoPago; }</span>
+<span class="fc" id="L30">    public void setMetodoPago(String metodoPago) { this.metodoPago = metodoPago; }</span>
+
+<span class="fc" id="L32">    public String getMetodoEnvio() { return metodoEnvio; }</span>
+<span class="fc" id="L33">    public void setMetodoEnvio(String metodoEnvio) { this.metodoEnvio = metodoEnvio; }</span>
+
+<span class="fc" id="L35">    public String getDireccionEnvio() { return direccionEnvio; }</span>
+<span class="fc" id="L36">    public void setDireccionEnvio(String direccionEnvio) { this.direccionEnvio = direccionEnvio; }</span>
+
+<span class="fc" id="L38">    public List&lt;DetallePedidoDTO&gt; getDetalles() { return detalles; }</span>
+<span class="fc" id="L39">    public void setDetalles(List&lt;DetallePedidoDTO&gt; detalles) { this.detalles = detalles; }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

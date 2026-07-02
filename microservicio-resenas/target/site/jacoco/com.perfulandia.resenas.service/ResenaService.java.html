@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResenaService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservicio-resenas</a> &gt; <a href="index.source.html" class="el_package">com.perfulandia.resenas.service</a> &gt; <span class="el_source">ResenaService.java</span></div><h1>ResenaService.java</h1><pre class="source lang-java linenums">package com.perfulandia.resenas.service;
+
+import com.perfulandia.resenas.entity.Resena;
+import com.perfulandia.resenas.repository.ResenaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+<span class="fc" id="L13">public class ResenaService {</span>
+
+    @Autowired
+    private ResenaRepository resenaRepository;
+
+    public Object createResena(Resena resena) {
+<span class="pc bpc" id="L19" title="2 of 6 branches missed.">        if (resena.getCalificacion() == null || resena.getCalificacion() &lt; 1 || resena.getCalificacion() &gt; 5) {</span>
+<span class="fc" id="L20">            return &quot;La calificación debe estar entre 1 y 5.&quot;;</span>
+        }
+        
+<span class="fc" id="L23">        resena.setFechaCreacion(LocalDate.now());</span>
+<span class="fc" id="L24">        return resenaRepository.save(resena);</span>
+    }
+
+    public List&lt;Resena&gt; getResenasByProductoId(Long productoId) {
+<span class="nc" id="L28">        return resenaRepository.findByProductoId(productoId);</span>
+    }
+
+    public boolean deleteResena(Long id) {
+<span class="nc" id="L32">        Optional&lt;Resena&gt; resena = resenaRepository.findById(id);</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (resena.isPresent()) {</span>
+<span class="nc" id="L34">            resenaRepository.deleteById(id);</span>
+<span class="nc" id="L35">            return true;</span>
+        }
+<span class="nc" id="L37">        return false;</span>
+    }
+
+    public List&lt;Resena&gt; getAllResenas() {
+<span class="nc" id="L41">        return resenaRepository.findAll();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
