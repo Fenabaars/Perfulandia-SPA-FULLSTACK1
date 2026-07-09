@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.perfulandia.carrito.controllers.CarritoControllerTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.407 s -- in com.perfulandia.carrito.controllers.CarritoControllerTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.288 s -- in com.perfulandia.carrito.controllers.CarritoControllerTest

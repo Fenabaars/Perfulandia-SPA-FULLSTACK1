@@ -1,6 +1,6 @@
 # Perfulandia - Plataforma de Comercio Electrónico (Microservicios)
 
-¡Bienvenido al repositorio oficial de **Perfulandia**! Este proyecto es el resultado de la Evaluación Parcial 3 de la asignatura Desarrollo FullStack 1, donde se ha implementado una arquitectura robusta basada en microservicios utilizando Spring Boot.
+¡Bienvenido al repositorio oficial de **Perfulandia**! Este proyecto es el resultado de la Evaluación Parcial ET de la asignatura Desarrollo FullStack 1, donde se ha implementado una arquitectura robusta basada en microservicios utilizando Spring Boot.
 
 ## 🏗️ Arquitectura y Tecnologías
 

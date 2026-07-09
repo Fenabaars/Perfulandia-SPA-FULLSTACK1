@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("null")
 class GlobalExceptionHandlerTest {
 
     private final GlobalExceptionHandler handler = new GlobalExceptionHandler();
@@ -28,17 +29,19 @@ class GlobalExceptionHandlerTest {
         when(bindingResult.getFieldErrors()).thenReturn(Collections.singletonList(fieldError));
 
         ResponseEntity<Map<String, String>> response = handler.handleValidations(ex);
+        java.util.Map<String, String> body = java.util.Objects.requireNonNull(response.getBody());
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("error", response.getBody().get("campo"));
+        assertEquals("error", body.get("campo"));
     }
 
     @Test
     void testHandleRuntimeExceptions() {
         RuntimeException ex = new RuntimeException("Error interno");
         ResponseEntity<Map<String, String>> response = handler.handleRuntimeExceptions(ex);
+        java.util.Map<String, String> body = java.util.Objects.requireNonNull(response.getBody());
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Error interno", response.getBody().get("error"));
+        assertEquals("Error interno", body.get("error"));
     }
 }
