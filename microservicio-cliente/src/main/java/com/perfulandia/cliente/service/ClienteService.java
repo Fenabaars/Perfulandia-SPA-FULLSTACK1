@@ -2,21 +2,29 @@ package com.perfulandia.cliente.service;
 
 import com.perfulandia.cliente.model.Cliente;
 import com.perfulandia.cliente.repository.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
+@SuppressWarnings("null")
 public class ClienteService {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
+
+    public ClienteService(ClienteRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
+    }
 
     public Cliente createCliente(Cliente cliente) {
-        cliente.setFechaRegistro(LocalDate.now());
+        if (cliente.getFechaRegistro() == null) {
+            cliente.setFechaRegistro(LocalDate.now());
+        }
+        log.info("Guardando nuevo cliente en base de datos: {}", cliente.getEmail());
         return clienteRepository.save(cliente);
     }
 
@@ -42,8 +50,10 @@ public class ClienteService {
             if (clienteDetails.getTelefono() != null) existingCliente.setTelefono(clienteDetails.getTelefono());
             if (clienteDetails.getDireccion() != null) existingCliente.setDireccion(clienteDetails.getDireccion());
             
+            log.info("Cliente actualizado correctamente en BD con id: {}", id);
             return Optional.of(clienteRepository.save(existingCliente));
         }
+        log.warn("Intento de actualizar cliente inexistente con id: {}", id);
         return Optional.empty();
     }
 
@@ -51,8 +61,10 @@ public class ClienteService {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         if (cliente.isPresent()) {
             clienteRepository.delete(cliente.get());
+            log.info("Cliente eliminado con id: {}", id);
             return true;
         }
+        log.warn("Intento de eliminar cliente inexistente con id: {}", id);
         return false;
     }
 }

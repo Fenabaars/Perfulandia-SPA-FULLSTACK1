@@ -2,58 +2,70 @@
 
 import com.perfulandia.cliente.model.Cliente;
 import com.perfulandia.cliente.repository.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+<span class="fc" id="L12">@Slf4j</span>
 @Service
-<span class="fc" id="L13">public class ClienteService {</span>
+@SuppressWarnings(&quot;null&quot;)
+public class ClienteService {
 
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private final ClienteRepository clienteRepository;
+
+<span class="fc" id="L19">    public ClienteService(ClienteRepository clienteRepository) {</span>
+<span class="fc" id="L20">        this.clienteRepository = clienteRepository;</span>
+<span class="fc" id="L21">    }</span>
 
     public Cliente createCliente(Cliente cliente) {
-<span class="fc" id="L19">        cliente.setFechaRegistro(LocalDate.now());</span>
-<span class="fc" id="L20">        return clienteRepository.save(cliente);</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (cliente.getFechaRegistro() == null) {</span>
+<span class="fc" id="L25">            cliente.setFechaRegistro(LocalDate.now());</span>
+        }
+<span class="fc" id="L27">        log.info(&quot;Guardando nuevo cliente en base de datos: {}&quot;, cliente.getEmail());</span>
+<span class="fc" id="L28">        return clienteRepository.save(cliente);</span>
     }
 
     public List&lt;Cliente&gt; getAllClientes() {
-<span class="nc" id="L24">        return clienteRepository.findAll();</span>
+<span class="fc" id="L32">        return clienteRepository.findAll();</span>
     }
 
     public Optional&lt;Cliente&gt; getClienteById(Long id) {
-<span class="nc" id="L28">        return clienteRepository.findById(id);</span>
+<span class="fc" id="L36">        return clienteRepository.findById(id);</span>
     }
 
     public Optional&lt;Cliente&gt; getClienteByEmail(String email) {
-<span class="nc" id="L32">        return clienteRepository.findByEmail(email);</span>
+<span class="fc" id="L40">        return clienteRepository.findByEmail(email);</span>
     }
 
     public Optional&lt;Cliente&gt; updateCliente(Long id, Cliente clienteDetails) {
-<span class="fc" id="L36">        Optional&lt;Cliente&gt; optionalCliente = clienteRepository.findById(id);</span>
+<span class="fc" id="L44">        Optional&lt;Cliente&gt; optionalCliente = clienteRepository.findById(id);</span>
         
-<span class="pc bpc" id="L38" title="1 of 2 branches missed.">        if (optionalCliente.isPresent()) {</span>
-<span class="fc" id="L39">            Cliente existingCliente = optionalCliente.get();</span>
-<span class="pc bpc" id="L40" title="1 of 2 branches missed.">            if (clienteDetails.getNombre() != null) existingCliente.setNombre(clienteDetails.getNombre());</span>
-<span class="pc bpc" id="L41" title="1 of 2 branches missed.">            if (clienteDetails.getApellido() != null) existingCliente.setApellido(clienteDetails.getApellido());</span>
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            if (clienteDetails.getTelefono() != null) existingCliente.setTelefono(clienteDetails.getTelefono());</span>
-<span class="pc bpc" id="L43" title="1 of 2 branches missed.">            if (clienteDetails.getDireccion() != null) existingCliente.setDireccion(clienteDetails.getDireccion());</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (optionalCliente.isPresent()) {</span>
+<span class="fc" id="L47">            Cliente existingCliente = optionalCliente.get();</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">            if (clienteDetails.getNombre() != null) existingCliente.setNombre(clienteDetails.getNombre());</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">            if (clienteDetails.getApellido() != null) existingCliente.setApellido(clienteDetails.getApellido());</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">            if (clienteDetails.getTelefono() != null) existingCliente.setTelefono(clienteDetails.getTelefono());</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            if (clienteDetails.getDireccion() != null) existingCliente.setDireccion(clienteDetails.getDireccion());</span>
             
-<span class="fc" id="L45">            return Optional.of(clienteRepository.save(existingCliente));</span>
+<span class="fc" id="L53">            log.info(&quot;Cliente actualizado correctamente en BD con id: {}&quot;, id);</span>
+<span class="fc" id="L54">            return Optional.of(clienteRepository.save(existingCliente));</span>
         }
-<span class="nc" id="L47">        return Optional.empty();</span>
+<span class="fc" id="L56">        log.warn(&quot;Intento de actualizar cliente inexistente con id: {}&quot;, id);</span>
+<span class="fc" id="L57">        return Optional.empty();</span>
     }
 
     public boolean deleteCliente(Long id) {
-<span class="nc" id="L51">        Optional&lt;Cliente&gt; cliente = clienteRepository.findById(id);</span>
-<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (cliente.isPresent()) {</span>
-<span class="nc" id="L53">            clienteRepository.delete(cliente.get());</span>
-<span class="nc" id="L54">            return true;</span>
+<span class="fc" id="L61">        Optional&lt;Cliente&gt; cliente = clienteRepository.findById(id);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (cliente.isPresent()) {</span>
+<span class="fc" id="L63">            clienteRepository.delete(cliente.get());</span>
+<span class="fc" id="L64">            log.info(&quot;Cliente eliminado con id: {}&quot;, id);</span>
+<span class="fc" id="L65">            return true;</span>
         }
-<span class="nc" id="L56">        return false;</span>
+<span class="fc" id="L67">        log.warn(&quot;Intento de eliminar cliente inexistente con id: {}&quot;, id);</span>
+<span class="fc" id="L68">        return false;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

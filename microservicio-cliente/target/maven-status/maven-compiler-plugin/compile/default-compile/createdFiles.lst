@@ -1,5 +1,7 @@
+com\perfulandia\cliente\controller\ClienteController.class
+com\perfulandia\cliente\exceptions\GlobalExceptionHandler.class
+com\perfulandia\cliente\model\Cliente.class
 com\perfulandia\cliente\ClienteApplication.class
 com\perfulandia\cliente\repository\ClienteRepository.class
 com\perfulandia\cliente\service\ClienteService.class
-com\perfulandia\cliente\controller\ClienteController.class
-com\perfulandia\cliente\model\Cliente.class
+com\perfulandia\cliente\dto\ClienteDTO.class

@@ -39,25 +39,23 @@ El proyecto cuenta con **10 microservicios** de negocio más un **API Gateway** 
 
 ## 🚀 Instrucciones de Ejecución (Paso a Paso)
 
-La manera más sencilla y recomendada de ejecutar toda la plataforma (incluyendo la base de datos MySQL) es utilizando **Docker Compose**.
+La plataforma está configurada para ejecutarse localmente conectándose a un servidor MySQL proporcionado por **XAMPP**.
 
 ### Prerrequisitos:
-- Docker y Docker Desktop instalados en tu máquina.
-- Java 17 y Apache Maven (opcional, solo para ejecutar tests o desarrollo local sin Docker).
+- **XAMPP** instalado en tu máquina (con el módulo MySQL habilitado).
+- **Java 17** y **Apache Maven** instalados.
 
-### Despliegue con Docker:
-1. Abre una terminal en la raíz del proyecto.
-2. Ejecuta el orquestador en segundo plano:
+### Despliegue Local (con XAMPP):
+1. Abre el panel de control de **XAMPP** y arranca el servicio **MySQL**.
+   *(Nota: Asegúrate de que MySQL esté corriendo en el puerto por defecto `3306` con el usuario `root` y sin contraseña).*
+2. Los microservicios están configurados con `createDatabaseIfNotExist=true`, por lo que **crearán sus respectivas bases de datos automáticamente** al iniciar. No necesitas crearlas manualmente.
+3. Para levantar la plataforma, debes ejecutar cada microservicio de manera independiente. Puedes hacerlo desde tu IDE favorito (como IntelliJ o VS Code) ejecutando la clase principal de cada proyecto, o desde la terminal usando Maven:
    ```bash
-   docker-compose up -d --build
+   # Ejemplo para iniciar el microservicio catalogo:
+   cd microservicio-catalogo
+   mvn spring-boot:run
    ```
-3. Docker descargará MySQL 8, construirá las imágenes de los 11 proyectos Java basándose en sus respectivos `Dockerfile`, y los conectará en una red interna.
-4. Para detener la aplicación:
-   ```bash
-   docker-compose down
-   ```
-
-*(Nota: Los microservicios esperarán automáticamente a que el contenedor de la base de datos esté sano y disponible antes de arrancar por completo).*
+4. Se recomienda levantar el **API Gateway** (`microservicio-api-gateway`) y luego los demás microservicios en el orden deseado.
 
 ---
 
@@ -67,8 +65,15 @@ Todos los microservicios cuentan con documentación autogenerada y consumible. A
 
 Ejemplos:
 - **Catálogo:** [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
+- **Usuario:** [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
+- **Sucursal:** [http://localhost:8083/swagger-ui.html](http://localhost:8083/swagger-ui.html)
+- **Proveedor:** [http://localhost:8084/swagger-ui.html](http://localhost:8084/swagger-ui.html)
+- **Inventario:** [http://localhost:8085/swagger-ui.html](http://localhost:8085/swagger-ui.html)
 - **Carrito/Pedidos:** [http://localhost:8086/swagger-ui.html](http://localhost:8086/swagger-ui.html)
 - **Envíos:** [http://localhost:8087/swagger-ui.html](http://localhost:8087/swagger-ui.html)
+- **Reseñas:** [http://localhost:8088/swagger-ui.html](http://localhost:8088/swagger-ui.html)
+- **Cliente:** [http://localhost:8089/swagger-ui.html](http://localhost:8089/swagger-ui.html)
+- **Promoción:** [http://localhost:8090/swagger-ui.html](http://localhost:8090/swagger-ui.html)
 
 ---
 

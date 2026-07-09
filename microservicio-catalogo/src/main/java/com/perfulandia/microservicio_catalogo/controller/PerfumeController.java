@@ -1,8 +1,7 @@
 package com.perfulandia.microservicio_catalogo.controller;
 
 import com.perfulandia.microservicio_catalogo.model.Perfume;
-import com.perfulandia.microservicio_catalogo.repository.PerfumeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.perfulandia.microservicio_catalogo.service.PerfumeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +9,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import com.perfulandia.microservicio_catalogo.dto.PerfumeDTO;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/catalog")
 public class PerfumeController {
 
-    @Autowired
-    private com.perfulandia.microservicio_catalogo.service.PerfumeService perfumeService;
+    private final PerfumeService perfumeService;
+
+    public PerfumeController(PerfumeService perfumeService) {
+        this.perfumeService = perfumeService;
+    }
 
     // 1. Obtener todos los perfumes (GET)
     @GetMapping
@@ -33,14 +41,20 @@ public class PerfumeController {
 
     // 3. Crear un nuevo perfume (POST)
     @PostMapping
-    public ResponseEntity<Perfume> createPerfume(@RequestBody Perfume perfume) {
+    public ResponseEntity<Perfume> createPerfume(@Valid @RequestBody PerfumeDTO perfumeDTO) {
+        log.info("Creando nuevo perfume: {}", perfumeDTO.getNombre());
+        Perfume perfume = new Perfume();
+        BeanUtils.copyProperties(perfumeDTO, perfume);
         Perfume nuevoPerfume = perfumeService.createPerfume(perfume);
         return new ResponseEntity<>(nuevoPerfume, HttpStatus.CREATED);
     }
 
     // 4. Actualizar un perfume existente (PUT)
     @PutMapping("/{id}")
-    public ResponseEntity<Perfume> updatePerfume(@PathVariable Long id, @RequestBody Perfume perfumeDetalles) {
+    public ResponseEntity<Perfume> updatePerfume(@PathVariable Long id, @Valid @RequestBody PerfumeDTO perfumeDTO) {
+        log.info("Actualizando perfume con id: {}", id);
+        Perfume perfumeDetalles = new Perfume();
+        BeanUtils.copyProperties(perfumeDTO, perfumeDetalles);
         Optional<Perfume> perfumeActualizado = perfumeService.updatePerfume(id, perfumeDetalles);
         return perfumeActualizado.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));

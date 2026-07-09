@@ -6,11 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import java.util.List;
 
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import com.perfulandia.envios.dto.EnvioDTO;
+
+<span class="fc" id="L17">@Slf4j</span>
 @RestController
 @RequestMapping(&quot;/api/envios&quot;)
 @Tag(name = &quot;Envíos&quot;, description = &quot;API para la gestión logística de los despachos&quot;)
@@ -18,35 +22,39 @@ public class EnvioController {
 
     private final EnvioService service;
 
-<span class="nc" id="L21">    public EnvioController(EnvioService service) {</span>
-<span class="nc" id="L22">        this.service = service;</span>
-<span class="nc" id="L23">    }</span>
+<span class="fc" id="L25">    public EnvioController(EnvioService service) {</span>
+<span class="fc" id="L26">        this.service = service;</span>
+<span class="fc" id="L27">    }</span>
 
     @GetMapping
     public ResponseEntity&lt;List&lt;Envio&gt;&gt; obtenerTodos() {
-<span class="nc" id="L27">        return ResponseEntity.ok(service.obtenerTodos());</span>
+<span class="fc" id="L31">        return ResponseEntity.ok(service.obtenerTodos());</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Envio&gt; obtenerPorId(@PathVariable Long id) {
-<span class="nc" id="L32">        return ResponseEntity.ok(service.obtenerPorId(id));</span>
+<span class="fc" id="L36">        return ResponseEntity.ok(service.obtenerPorId(id));</span>
     }
     
     @GetMapping(&quot;/pedido/{pedidoId}&quot;)
     public ResponseEntity&lt;Envio&gt; obtenerPorPedidoId(@PathVariable Long pedidoId) {
-<span class="nc" id="L37">        return ResponseEntity.ok(service.obtenerPorPedidoId(pedidoId));</span>
+<span class="fc" id="L41">        return ResponseEntity.ok(service.obtenerPorPedidoId(pedidoId));</span>
     }
 
     @PostMapping
-    public ResponseEntity&lt;Envio&gt; registrarEnvio(@RequestBody Envio envio) {
-<span class="nc" id="L42">        return new ResponseEntity&lt;&gt;(service.registrarEnvio(envio), HttpStatus.CREATED);</span>
+    public ResponseEntity&lt;Envio&gt; registrarEnvio(@Valid @RequestBody EnvioDTO envioDTO) {
+<span class="fc" id="L46">        log.info(&quot;Registrando nuevo envio para el pedido: {}&quot;, envioDTO.getPedidoId());</span>
+<span class="fc" id="L47">        Envio envio = new Envio();</span>
+<span class="fc" id="L48">        BeanUtils.copyProperties(envioDTO, envio);</span>
+<span class="fc" id="L49">        return new ResponseEntity&lt;&gt;(service.registrarEnvio(envio), HttpStatus.CREATED);</span>
     }
 
     @PatchMapping(&quot;/{id}/estado&quot;)
     public ResponseEntity&lt;Envio&gt; actualizarEstado(
             @PathVariable Long id,
             @RequestParam String estado) {
-<span class="nc" id="L49">        return ResponseEntity.ok(service.actualizarEstado(id, estado));</span>
+<span class="fc" id="L56">        log.info(&quot;Actualizando estado del envio con id {} a {}&quot;, id, estado);</span>
+<span class="fc" id="L57">        return ResponseEntity.ok(service.actualizarEstado(id, estado));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

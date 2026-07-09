@@ -16,9 +16,9 @@ public class PedidoController {
 
     private final PedidoService service;
 
-<span class="nc" id="L19">    public PedidoController(PedidoService service) {</span>
-<span class="nc" id="L20">        this.service = service;</span>
-<span class="nc" id="L21">    }</span>
+<span class="fc" id="L19">    public PedidoController(PedidoService service) {</span>
+<span class="fc" id="L20">        this.service = service;</span>
+<span class="fc" id="L21">    }</span>
 
     @GetMapping
     public ResponseEntity&lt;List&lt;Pedido&gt;&gt; obtenerTodos() {
@@ -27,19 +27,19 @@ public class PedidoController {
 
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Pedido&gt; obtenerPorId(@PathVariable Long id) {
-<span class="nc" id="L30">        return ResponseEntity.ok(service.obtenerPorId(id));</span>
+<span class="fc" id="L30">        return ResponseEntity.ok(service.obtenerPorId(id));</span>
     }
 
     // H19: Historial de compras del cliente (pedidos web + estado actual)
     @GetMapping(&quot;/usuario/{usuarioId}&quot;)
     public ResponseEntity&lt;List&lt;Pedido&gt;&gt; obtenerHistorial(@PathVariable Long usuarioId) {
-<span class="nc" id="L36">        return ResponseEntity.ok(service.obtenerHistorialPorUsuario(usuarioId));</span>
+<span class="fc" id="L36">        return ResponseEntity.ok(service.obtenerHistorialPorUsuario(usuarioId));</span>
     }
 
     // H17: Confirmar pedido web con método de pago y envío
     @PostMapping
     public ResponseEntity&lt;Pedido&gt; confirmarPedido(@Valid @RequestBody PedidoDTO dto) {
-<span class="nc" id="L42">        return new ResponseEntity&lt;&gt;(service.confirmarPedido(dto), HttpStatus.CREATED);</span>
+<span class="fc" id="L42">        return new ResponseEntity&lt;&gt;(service.confirmarPedido(dto), HttpStatus.CREATED);</span>
     }
 
     // Actualizar estado del pedido

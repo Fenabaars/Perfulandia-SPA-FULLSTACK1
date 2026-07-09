@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClienteController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservicio-cliente</a> &gt; <a href="index.source.html" class="el_package">com.perfulandia.cliente.controller</a> &gt; <span class="el_source">ClienteController.java</span></div><h1>ClienteController.java</h1><pre class="source lang-java linenums">package com.perfulandia.cliente.controller;
 
 import com.perfulandia.cliente.model.Cliente;
-import com.perfulandia.cliente.repository.ClienteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.perfulandia.cliente.service.ClienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,58 +10,75 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import com.perfulandia.cliente.dto.ClienteDTO;
+
+<span class="fc" id="L18">@Slf4j</span>
 @RestController
 @RequestMapping(&quot;/api/customers&quot;)
-<span class="nc" id="L16">public class ClienteController {</span>
+@SuppressWarnings(&quot;null&quot;)
+public class ClienteController {
 
-    @Autowired
-    private com.perfulandia.cliente.service.ClienteService clienteService;
+    private final ClienteService clienteService;
+
+<span class="fc" id="L26">    public ClienteController(ClienteService clienteService) {</span>
+<span class="fc" id="L27">        this.clienteService = clienteService;</span>
+<span class="fc" id="L28">    }</span>
 
     // Crear un nuevo cliente
     @PostMapping
-    public ResponseEntity&lt;Cliente&gt; createCliente(@RequestBody Cliente cliente) {
-<span class="nc" id="L24">        Cliente savedCliente = clienteService.createCliente(cliente);</span>
-<span class="nc" id="L25">        return new ResponseEntity&lt;&gt;(savedCliente, HttpStatus.CREATED);</span>
+    public ResponseEntity&lt;Cliente&gt; createCliente(@Valid @RequestBody ClienteDTO clienteDTO) {
+<span class="fc" id="L33">        log.info(&quot;Creando nuevo cliente: {}&quot;, clienteDTO.getEmail());</span>
+<span class="fc" id="L34">        Cliente cliente = new Cliente();</span>
+<span class="fc" id="L35">        BeanUtils.copyProperties(clienteDTO, cliente);</span>
+<span class="fc" id="L36">        cliente.setFechaRegistro(LocalDate.now());</span>
+<span class="fc" id="L37">        Cliente savedCliente = clienteService.createCliente(cliente);</span>
+<span class="fc" id="L38">        return new ResponseEntity&lt;&gt;(savedCliente, HttpStatus.CREATED);</span>
     }
 
     // Devolver la lista de todos los clientes
     @GetMapping
     public ResponseEntity&lt;List&lt;Cliente&gt;&gt; getAllClientes() {
-<span class="nc" id="L31">        List&lt;Cliente&gt; clientes = clienteService.getAllClientes();</span>
-<span class="nc" id="L32">        return new ResponseEntity&lt;&gt;(clientes, HttpStatus.OK);</span>
+<span class="fc" id="L44">        List&lt;Cliente&gt; clientes = clienteService.getAllClientes();</span>
+<span class="fc" id="L45">        return new ResponseEntity&lt;&gt;(clientes, HttpStatus.OK);</span>
     }
 
     // Devolver los datos de un cliente específico por su ID
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Cliente&gt; getClienteById(@PathVariable Long id) {
-<span class="nc" id="L38">        Optional&lt;Cliente&gt; cliente = clienteService.getClienteById(id);</span>
-<span class="nc" id="L39">        return cliente.map(value -&gt; new ResponseEntity&lt;&gt;(value, HttpStatus.OK))</span>
-<span class="nc" id="L40">                .orElseGet(() -&gt; new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND));</span>
+<span class="fc" id="L51">        Optional&lt;Cliente&gt; cliente = clienteService.getClienteById(id);</span>
+<span class="fc" id="L52">        return cliente.map(value -&gt; new ResponseEntity&lt;&gt;(value, HttpStatus.OK))</span>
+<span class="fc" id="L53">                .orElseGet(() -&gt; new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND));</span>
     }
 
     // Buscar y devolver un cliente específico por su correo electrónico
     @GetMapping(&quot;/email/{email}&quot;)
     public ResponseEntity&lt;Cliente&gt; getClienteByEmail(@PathVariable String email) {
-<span class="nc" id="L46">        Optional&lt;Cliente&gt; cliente = clienteService.getClienteByEmail(email);</span>
-<span class="nc" id="L47">        return cliente.map(value -&gt; new ResponseEntity&lt;&gt;(value, HttpStatus.OK))</span>
-<span class="nc" id="L48">                .orElseGet(() -&gt; new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND));</span>
+<span class="fc" id="L59">        Optional&lt;Cliente&gt; cliente = clienteService.getClienteByEmail(email);</span>
+<span class="fc" id="L60">        return cliente.map(value -&gt; new ResponseEntity&lt;&gt;(value, HttpStatus.OK))</span>
+<span class="fc" id="L61">                .orElseGet(() -&gt; new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND));</span>
     }
 
     // Actualizar los datos de un cliente (ej. teléfono o dirección)
     @PutMapping(&quot;/{id}&quot;)
-    public ResponseEntity&lt;Cliente&gt; updateCliente(@PathVariable Long id, @RequestBody Cliente clienteDetails) {
-<span class="nc" id="L54">        Optional&lt;Cliente&gt; updatedCliente = clienteService.updateCliente(id, clienteDetails);</span>
-<span class="nc" id="L55">        return updatedCliente.map(value -&gt; new ResponseEntity&lt;&gt;(value, HttpStatus.OK))</span>
-<span class="nc" id="L56">                .orElseGet(() -&gt; new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND));</span>
+    public ResponseEntity&lt;Cliente&gt; updateCliente(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteDTO) {
+<span class="fc" id="L67">        log.info(&quot;Actualizando cliente con id: {}&quot;, id);</span>
+<span class="fc" id="L68">        Cliente clienteDetails = new Cliente();</span>
+<span class="fc" id="L69">        BeanUtils.copyProperties(clienteDTO, clienteDetails);</span>
+<span class="fc" id="L70">        Optional&lt;Cliente&gt; updatedCliente = clienteService.updateCliente(id, clienteDetails);</span>
+<span class="fc" id="L71">        return updatedCliente.map(value -&gt; new ResponseEntity&lt;&gt;(value, HttpStatus.OK))</span>
+<span class="fc" id="L72">                .orElseGet(() -&gt; new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND));</span>
     }
 
     // Eliminar a un cliente del sistema
     @DeleteMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Void&gt; deleteCliente(@PathVariable Long id) {
-<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (clienteService.deleteCliente(id)) {</span>
-<span class="nc" id="L63">            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (clienteService.deleteCliente(id)) {</span>
+<span class="fc" id="L79">            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</span>
         } else {
-<span class="nc" id="L65">            return new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);</span>
+<span class="fc" id="L81">            return new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);</span>
         }
     }
 }

@@ -2,43 +2,47 @@
 
 import com.perfulandia.envios.models.entities.Envio;
 import com.perfulandia.envios.repositories.EnvioRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+<span class="fc" id="L11">@Slf4j</span>
 @Service
 public class EnvioService {
 
     private final EnvioRepository repository;
 
-<span class="fc" id="L15">    public EnvioService(EnvioRepository repository) {</span>
-<span class="fc" id="L16">        this.repository = repository;</span>
-<span class="fc" id="L17">    }</span>
+<span class="fc" id="L17">    public EnvioService(EnvioRepository repository) {</span>
+<span class="fc" id="L18">        this.repository = repository;</span>
+<span class="fc" id="L19">    }</span>
 
     public List&lt;Envio&gt; obtenerTodos() {
-<span class="nc" id="L20">        return repository.findAll();</span>
+<span class="fc" id="L22">        return repository.findAll();</span>
     }
 
     public Envio obtenerPorId(Long id) {
-<span class="fc" id="L24">        return repository.findById(id).orElseThrow(() -&gt; new RuntimeException(&quot;Envio no encontrado&quot;));</span>
+<span class="fc" id="L26">        return repository.findById(id).orElseThrow(() -&gt; new RuntimeException(&quot;Envio no encontrado&quot;));</span>
     }
     
     public Envio obtenerPorPedidoId(Long pedidoId) {
-<span class="nc" id="L28">        return repository.findByPedidoId(pedidoId).orElseThrow(() -&gt; new RuntimeException(&quot;Envío no encontrado para el pedido &quot; + pedidoId));</span>
+<span class="fc" id="L30">        return repository.findByPedidoId(pedidoId).orElseThrow(() -&gt; new RuntimeException(&quot;Envío no encontrado para el pedido &quot; + pedidoId));</span>
     }
 
     public Envio registrarEnvio(Envio envio) {
-<span class="fc" id="L32">        envio.setEstado(&quot;PENDIENTE&quot;);</span>
-<span class="fc" id="L33">        envio.setFechaActualizacion(LocalDateTime.now());</span>
-<span class="fc" id="L34">        return repository.save(envio);</span>
+<span class="fc" id="L34">        envio.setEstado(&quot;PENDIENTE&quot;);</span>
+<span class="fc" id="L35">        envio.setFechaActualizacion(LocalDateTime.now());</span>
+<span class="fc" id="L36">        log.info(&quot;Registrando envio en base de datos para pedidoId: {}&quot;, envio.getPedidoId());</span>
+<span class="fc" id="L37">        return repository.save(envio);</span>
     }
 
     public Envio actualizarEstado(Long id, String estado) {
-<span class="fc" id="L38">        Envio envio = obtenerPorId(id);</span>
-<span class="fc" id="L39">        envio.setEstado(estado);</span>
-<span class="fc" id="L40">        envio.setFechaActualizacion(LocalDateTime.now());</span>
-<span class="fc" id="L41">        return repository.save(envio);</span>
+<span class="fc" id="L41">        Envio envio = obtenerPorId(id);</span>
+<span class="fc" id="L42">        envio.setEstado(estado);</span>
+<span class="fc" id="L43">        envio.setFechaActualizacion(LocalDateTime.now());</span>
+<span class="fc" id="L44">        log.info(&quot;Actualizando estado en base de datos de envio {} a {}&quot;, id, estado);</span>
+<span class="fc" id="L45">        return repository.save(envio);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

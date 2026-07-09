@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,64 +27,70 @@ class EnvioServiceTest {
     @InjectMocks
     private EnvioService service;
 
-    private Envio envioMock;
+    private Envio envio;
 
     @BeforeEach
     void setUp() {
-        envioMock = new Envio();
-        envioMock.setId(1L);
-        envioMock.setPedidoId(100L);
-        envioMock.setEstado("PENDIENTE");
-        envioMock.setDireccionDestino("Calle Falsa 123");
+        envio = new Envio();
+        envio.setId(1L);
+        envio.setPedidoId(10L);
+        envio.setEmpresaTransporte("Starken");
+        envio.setNumeroSeguimiento("12345");
+        envio.setEstado("EN_PREPARACION");
+        envio.setFechaActualizacion(LocalDateTime.now());
     }
 
     @Test
-    void givenEnvioValido_whenRegistrarEnvio_thenRetornaEnvioPendiente() {
-        // Given
-        when(repository.save(any(Envio.class))).thenReturn(envioMock);
+    void testObtenerTodos() {
+        when(repository.findAll()).thenReturn(Arrays.asList(envio));
+        List<Envio> result = service.obtenerTodos();
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+    }
 
-        // When
-        Envio resultado = service.registrarEnvio(envioMock);
+    @Test
+    void testObtenerPorId() {
+        when(repository.findById(1L)).thenReturn(Optional.of(envio));
+        Envio result = service.obtenerPorId(1L);
+        assertNotNull(result);
+        assertEquals("Starken", result.getEmpresaTransporte());
+    }
 
-        // Then
-        assertNotNull(resultado);
-        assertEquals("PENDIENTE", resultado.getEstado());
+    @Test
+    void testObtenerPorId_NotFound() {
+        when(repository.findById(1L)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> service.obtenerPorId(1L));
+    }
+
+    @Test
+    void testObtenerPorPedidoId() {
+        when(repository.findByPedidoId(10L)).thenReturn(Optional.of(envio));
+        Envio result = service.obtenerPorPedidoId(10L);
+        assertNotNull(result);
+        assertEquals(10L, result.getPedidoId());
+    }
+
+    @Test
+    void testObtenerPorPedidoId_NotFound() {
+        when(repository.findByPedidoId(10L)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> service.obtenerPorPedidoId(10L));
+    }
+
+    @Test
+    void testRegistrarEnvio() {
+        when(repository.save(any(Envio.class))).thenReturn(envio);
+        Envio result = service.registrarEnvio(envio);
+        assertNotNull(result);
         verify(repository, times(1)).save(any(Envio.class));
     }
 
     @Test
-    void givenEnvioExistente_whenActualizarEstado_thenRetornaEnvioActualizado() {
-        // Given
-        when(repository.findById(1L)).thenReturn(Optional.of(envioMock));
-        
-        Envio envioActualizado = new Envio();
-        envioActualizado.setId(1L);
-        envioActualizado.setEstado("EN_TRANSITO");
-        envioActualizado.setFechaActualizacion(LocalDateTime.now());
-        
-        when(repository.save(any(Envio.class))).thenReturn(envioActualizado);
+    void testActualizarEstado() {
+        when(repository.findById(1L)).thenReturn(Optional.of(envio));
+        when(repository.save(any(Envio.class))).thenReturn(envio);
 
-        // When
-        Envio resultado = service.actualizarEstado(1L, "EN_TRANSITO");
-
-        // Then
-        assertNotNull(resultado);
-        assertEquals("EN_TRANSITO", resultado.getEstado());
-        verify(repository, times(1)).findById(1L);
-        verify(repository, times(1)).save(any(Envio.class));
-    }
-
-    @Test
-    void givenEnvioNoExistente_whenObtenerPorId_thenLanzaExcepcion() {
-        // Given
-        when(repository.findById(99L)).thenReturn(Optional.empty());
-
-        // When & Then
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            service.obtenerPorId(99L);
-        });
-
-        assertEquals("Envio no encontrado", exception.getMessage());
-        verify(repository, times(1)).findById(99L);
+        Envio result = service.actualizarEstado(1L, "ENVIADO");
+        assertNotNull(result);
+        assertEquals("ENVIADO", result.getEstado());
     }
 }

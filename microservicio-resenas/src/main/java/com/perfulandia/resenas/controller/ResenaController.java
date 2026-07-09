@@ -1,26 +1,34 @@
 package com.perfulandia.resenas.controller;
 
 import com.perfulandia.resenas.entity.Resena;
-import com.perfulandia.resenas.repository.ResenaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import com.perfulandia.resenas.dto.ResenaDTO;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/reviews")
 public class ResenaController {
 
-    @Autowired
-    private com.perfulandia.resenas.service.ResenaService resenaService;
+    private final com.perfulandia.resenas.service.ResenaService resenaService;
+
+    public ResenaController(com.perfulandia.resenas.service.ResenaService resenaService) {
+        this.resenaService = resenaService;
+    }
 
     // 1. Como Cliente, quiero dejar una calificación (de 1 a 5 estrellas) y un comentario sobre un perfume que compré.
     @PostMapping
-    public ResponseEntity<?> createResena(@RequestBody Resena resena) {
+    public ResponseEntity<?> createResena(@Valid @RequestBody ResenaDTO resenaDTO) {
+        log.info("Creando resena para producto: {}", resenaDTO.getProductoId());
+        Resena resena = new Resena();
+        BeanUtils.copyProperties(resenaDTO, resena);
         Object resultado = resenaService.createResena(resena);
         if (resultado instanceof String) {
             return new ResponseEntity<>(resultado, HttpStatus.BAD_REQUEST);

@@ -17,70 +17,70 @@ import java.util.List;
 @Service
 public class VentaService {
 
-<span class="nc" id="L20">    private static final Logger logger = LoggerFactory.getLogger(VentaService.class);</span>
+<span class="fc" id="L20">    private static final Logger logger = LoggerFactory.getLogger(VentaService.class);</span>
     private final VentaRepository repository;
 
-<span class="nc" id="L23">    public VentaService(VentaRepository repository) {</span>
-<span class="nc" id="L24">        this.repository = repository;</span>
-<span class="nc" id="L25">    }</span>
+<span class="fc" id="L23">    public VentaService(VentaRepository repository) {</span>
+<span class="fc" id="L24">        this.repository = repository;</span>
+<span class="fc" id="L25">    }</span>
 
     public List&lt;Venta&gt; obtenerTodas() {
-<span class="nc" id="L28">        logger.info(&quot;Obteniendo todas las ventas físicas&quot;);</span>
-<span class="nc" id="L29">        return repository.findAll();</span>
+<span class="fc" id="L28">        logger.info(&quot;Obteniendo todas las ventas físicas&quot;);</span>
+<span class="fc" id="L29">        return repository.findAll();</span>
     }
 
     public Venta obtenerPorId(Long id) {
-<span class="nc" id="L33">        return repository.findById(id).orElseThrow(() -&gt; {</span>
-<span class="nc" id="L34">            logger.error(&quot;Venta no encontrada con ID: {}&quot;, id);</span>
-<span class="nc" id="L35">            return new RuntimeException(&quot;Venta no encontrada&quot;);</span>
+<span class="fc" id="L33">        return repository.findById(id).orElseThrow(() -&gt; {</span>
+<span class="fc" id="L34">            logger.error(&quot;Venta no encontrada con ID: {}&quot;, id);</span>
+<span class="fc" id="L35">            return new RuntimeException(&quot;Venta no encontrada&quot;);</span>
         });
     }
 
     public List&lt;Venta&gt; obtenerPorSucursal(Long sucursalId) {
-<span class="nc" id="L40">        logger.info(&quot;Obteniendo ventas de la sucursal ID: {}&quot;, sucursalId);</span>
-<span class="nc" id="L41">        return repository.findBySucursalIdOrderByFechaVentaDesc(sucursalId);</span>
+<span class="fc" id="L40">        logger.info(&quot;Obteniendo ventas de la sucursal ID: {}&quot;, sucursalId);</span>
+<span class="fc" id="L41">        return repository.findBySucursalIdOrderByFechaVentaDesc(sucursalId);</span>
     }
 
     // H18: Registrar nueva venta física en sucursal
     @Transactional
     public Venta registrarVenta(VentaDTO dto) {
-<span class="nc" id="L47">        logger.info(&quot;Registrando venta física en sucursal ID: {} por empleado ID: {}&quot;,</span>
-<span class="nc" id="L48">                dto.getSucursalId(), dto.getEmpleadoId());</span>
+<span class="fc" id="L47">        logger.info(&quot;Registrando venta física en sucursal ID: {} por empleado ID: {}&quot;,</span>
+<span class="fc" id="L48">                dto.getSucursalId(), dto.getEmpleadoId());</span>
 
-<span class="nc" id="L50">        Venta venta = new Venta();</span>
-<span class="nc" id="L51">        venta.setSucursalId(dto.getSucursalId());</span>
-<span class="nc" id="L52">        venta.setEmpleadoId(dto.getEmpleadoId());</span>
-<span class="nc" id="L53">        venta.setFechaVenta(LocalDateTime.now());</span>
-<span class="nc" id="L54">        venta.setMetodoPago(dto.getMetodoPago());</span>
+<span class="fc" id="L50">        Venta venta = new Venta();</span>
+<span class="fc" id="L51">        venta.setSucursalId(dto.getSucursalId());</span>
+<span class="fc" id="L52">        venta.setEmpleadoId(dto.getEmpleadoId());</span>
+<span class="fc" id="L53">        venta.setFechaVenta(LocalDateTime.now());</span>
+<span class="fc" id="L54">        venta.setMetodoPago(dto.getMetodoPago());</span>
 
-<span class="nc" id="L56">        List&lt;DetalleVenta&gt; detalles = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L57">        double total = 0.0;</span>
+<span class="fc" id="L56">        List&lt;DetalleVenta&gt; detalles = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L57">        double total = 0.0;</span>
 
-<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (DetalleVentaDTO detalleDTO : dto.getDetalles()) {</span>
-<span class="nc" id="L60">            DetalleVenta detalle = new DetalleVenta();</span>
-<span class="nc" id="L61">            detalle.setVenta(venta);</span>
-<span class="nc" id="L62">            detalle.setPerfumeId(detalleDTO.getPerfumeId());</span>
-<span class="nc" id="L63">            detalle.setNombrePerfume(detalleDTO.getNombrePerfume());</span>
-<span class="nc" id="L64">            detalle.setPrecioUnitario(detalleDTO.getPrecioUnitario());</span>
-<span class="nc" id="L65">            detalle.setCantidad(detalleDTO.getCantidad());</span>
-<span class="nc" id="L66">            double subtotal = detalleDTO.getPrecioUnitario() * detalleDTO.getCantidad();</span>
-<span class="nc" id="L67">            detalle.setSubtotal(subtotal);</span>
-<span class="nc" id="L68">            total += subtotal;</span>
-<span class="nc" id="L69">            detalles.add(detalle);</span>
-<span class="nc" id="L70">        }</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        for (DetalleVentaDTO detalleDTO : dto.getDetalles()) {</span>
+<span class="fc" id="L60">            DetalleVenta detalle = new DetalleVenta();</span>
+<span class="fc" id="L61">            detalle.setVenta(venta);</span>
+<span class="fc" id="L62">            detalle.setPerfumeId(detalleDTO.getPerfumeId());</span>
+<span class="fc" id="L63">            detalle.setNombrePerfume(detalleDTO.getNombrePerfume());</span>
+<span class="fc" id="L64">            detalle.setPrecioUnitario(detalleDTO.getPrecioUnitario());</span>
+<span class="fc" id="L65">            detalle.setCantidad(detalleDTO.getCantidad());</span>
+<span class="fc" id="L66">            double subtotal = detalleDTO.getPrecioUnitario() * detalleDTO.getCantidad();</span>
+<span class="fc" id="L67">            detalle.setSubtotal(subtotal);</span>
+<span class="fc" id="L68">            total += subtotal;</span>
+<span class="fc" id="L69">            detalles.add(detalle);</span>
+<span class="fc" id="L70">        }</span>
 
-<span class="nc" id="L72">        venta.setDetalles(detalles);</span>
-<span class="nc" id="L73">        venta.setTotal(total);</span>
+<span class="fc" id="L72">        venta.setDetalles(detalles);</span>
+<span class="fc" id="L73">        venta.setTotal(total);</span>
 
-<span class="nc" id="L75">        Venta guardada = repository.save(venta);</span>
-<span class="nc" id="L76">        logger.info(&quot;Venta física registrada con ID: {}. Total: ${}&quot;, guardada.getId(), total);</span>
-<span class="nc" id="L77">        return guardada;</span>
+<span class="fc" id="L75">        Venta guardada = repository.save(venta);</span>
+<span class="fc" id="L76">        logger.info(&quot;Venta física registrada con ID: {}. Total: ${}&quot;, guardada.getId(), total);</span>
+<span class="fc" id="L77">        return guardada;</span>
     }
 
     public void eliminarVenta(Long id) {
-<span class="nc" id="L81">        Venta venta = obtenerPorId(id);</span>
-<span class="nc" id="L82">        repository.delete(venta);</span>
-<span class="nc" id="L83">        logger.info(&quot;Venta ID {} eliminada del sistema&quot;, id);</span>
-<span class="nc" id="L84">    }</span>
+<span class="fc" id="L81">        Venta venta = obtenerPorId(id);</span>
+<span class="fc" id="L82">        repository.delete(venta);</span>
+<span class="fc" id="L83">        logger.info(&quot;Venta ID {} eliminada del sistema&quot;, id);</span>
+<span class="fc" id="L84">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

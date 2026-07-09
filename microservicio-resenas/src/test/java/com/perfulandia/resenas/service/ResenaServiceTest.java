@@ -9,7 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,47 +21,101 @@ import static org.mockito.Mockito.*;
 class ResenaServiceTest {
 
     @Mock
-    private ResenaRepository repository;
+    private ResenaRepository resenaRepository;
 
     @InjectMocks
-    private ResenaService service;
+    private ResenaService resenaService;
 
-    private Resena resenaMock;
+    private Resena resena;
 
     @BeforeEach
     void setUp() {
-        resenaMock = new Resena();
-        resenaMock.setId(1L);
-        resenaMock.setProductoId(100L);
-        resenaMock.setCalificacion(5);
-        resenaMock.setComentario("Excelente perfume!");
+        resena = new Resena();
+        resena.setId(1L);
+        resena.setUsuarioId(10L);
+        resena.setProductoId(100L);
+        resena.setCalificacion(5);
+        resena.setComentario("Muy bueno");
     }
 
     @Test
-    void givenResenaValida_whenCreateResena_thenRetornaResenaCreada() {
-        // Given
-        when(repository.save(any(Resena.class))).thenReturn(resenaMock);
-
-        // When
-        Object resultado = service.createResena(resenaMock);
-
-        // Then
+    void testCreateResenaSuccess() {
+        when(resenaRepository.save(any(Resena.class))).thenReturn(resena);
+        
+        Object resultado = resenaService.createResena(resena);
+        
         assertTrue(resultado instanceof Resena);
+        assertNotNull(((Resena) resultado).getFechaCreacion());
         assertEquals(5, ((Resena) resultado).getCalificacion());
-        verify(repository, times(1)).save(any(Resena.class));
+        verify(resenaRepository, times(1)).save(any(Resena.class));
     }
 
     @Test
-    void givenResenaInvalida_whenCreateResena_thenRetornaError() {
-        // Given
-        resenaMock.setCalificacion(6); // Inválida, máximo 5
-
-        // When
-        Object resultado = service.createResena(resenaMock);
-
-        // Then
-        assertTrue(resultado instanceof String);
+    void testCreateResenaCalificacionNula() {
+        resena.setCalificacion(null);
+        Object resultado = resenaService.createResena(resena);
         assertEquals("La calificación debe estar entre 1 y 5.", resultado);
-        verify(repository, never()).save(any(Resena.class));
+        verify(resenaRepository, never()).save(any(Resena.class));
+    }
+
+    @Test
+    void testCreateResenaCalificacionMenorA1() {
+        resena.setCalificacion(0);
+        Object resultado = resenaService.createResena(resena);
+        assertEquals("La calificación debe estar entre 1 y 5.", resultado);
+        verify(resenaRepository, never()).save(any(Resena.class));
+    }
+
+    @Test
+    void testCreateResenaCalificacionMayorA5() {
+        resena.setCalificacion(6);
+        Object resultado = resenaService.createResena(resena);
+        assertEquals("La calificación debe estar entre 1 y 5.", resultado);
+        verify(resenaRepository, never()).save(any(Resena.class));
+    }
+
+    @Test
+    void testGetResenasByProductoId() {
+        when(resenaRepository.findByProductoId(100L)).thenReturn(Arrays.asList(resena));
+        
+        List<Resena> resenas = resenaService.getResenasByProductoId(100L);
+        
+        assertFalse(resenas.isEmpty());
+        assertEquals(1, resenas.size());
+        verify(resenaRepository, times(1)).findByProductoId(100L);
+    }
+
+    @Test
+    void testDeleteResenaSuccess() {
+        when(resenaRepository.findById(1L)).thenReturn(Optional.of(resena));
+        doNothing().when(resenaRepository).deleteById(1L);
+        
+        boolean resultado = resenaService.deleteResena(1L);
+        
+        assertTrue(resultado);
+        verify(resenaRepository, times(1)).findById(1L);
+        verify(resenaRepository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void testDeleteResenaNotFound() {
+        when(resenaRepository.findById(1L)).thenReturn(Optional.empty());
+        
+        boolean resultado = resenaService.deleteResena(1L);
+        
+        assertFalse(resultado);
+        verify(resenaRepository, times(1)).findById(1L);
+        verify(resenaRepository, never()).deleteById(anyLong());
+    }
+
+    @Test
+    void testGetAllResenas() {
+        when(resenaRepository.findAll()).thenReturn(Arrays.asList(resena));
+        
+        List<Resena> resenas = resenaService.getAllResenas();
+        
+        assertFalse(resenas.isEmpty());
+        assertEquals(1, resenas.size());
+        verify(resenaRepository, times(1)).findAll();
     }
 }

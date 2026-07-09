@@ -1,22 +1,28 @@
 package com.perfulandia.promocion.controller;
 
 import com.perfulandia.promocion.entity.Promocion;
-import com.perfulandia.promocion.repository.PromocionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import com.perfulandia.promocion.dto.PromocionDTO;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/promotions")
+@SuppressWarnings("null")
 public class PromocionController {
 
-    @Autowired
-    private com.perfulandia.promocion.service.PromocionService promocionService;
+    private final com.perfulandia.promocion.service.PromocionService promocionService;
+
+    public PromocionController(com.perfulandia.promocion.service.PromocionService promocionService) {
+        this.promocionService = promocionService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Promocion>> getAllPromotions() {
@@ -24,13 +30,19 @@ public class PromocionController {
     }
 
     @PostMapping
-    public ResponseEntity<Promocion> createPromotion(@RequestBody Promocion promocion) {
+    public ResponseEntity<Promocion> createPromotion(@Valid @RequestBody PromocionDTO promocionDTO) {
+        log.info("Creando promocion: {}", promocionDTO.getCodigo());
+        Promocion promocion = new Promocion();
+        BeanUtils.copyProperties(promocionDTO, promocion);
         Promocion savedPromocion = promocionService.createPromotion(promocion);
         return new ResponseEntity<>(savedPromocion, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Promocion> updatePromotion(@PathVariable Long id, @RequestBody Promocion promocionDetails) {
+    public ResponseEntity<Promocion> updatePromotion(@PathVariable Long id, @Valid @RequestBody PromocionDTO promocionDTO) {
+        log.info("Actualizando promocion id: {}", id);
+        Promocion promocionDetails = new Promocion();
+        BeanUtils.copyProperties(promocionDTO, promocionDetails);
         return promocionService.updatePromotion(id, promocionDetails)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

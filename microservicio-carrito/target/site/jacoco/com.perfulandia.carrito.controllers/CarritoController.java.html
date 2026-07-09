@@ -16,20 +16,20 @@ public class CarritoController {
 
     private final CarritoService service;
 
-<span class="nc" id="L19">    public CarritoController(CarritoService service) {</span>
-<span class="nc" id="L20">        this.service = service;</span>
-<span class="nc" id="L21">    }</span>
+<span class="fc" id="L19">    public CarritoController(CarritoService service) {</span>
+<span class="fc" id="L20">        this.service = service;</span>
+<span class="fc" id="L21">    }</span>
 
     // H16: Ver todos los ítems del carrito de un usuario
     @GetMapping(&quot;/usuario/{usuarioId}&quot;)
     public ResponseEntity&lt;List&lt;CarritoItem&gt;&gt; obtenerCarrito(@PathVariable Long usuarioId) {
-<span class="nc" id="L26">        return ResponseEntity.ok(service.obtenerCarritoPorUsuario(usuarioId));</span>
+<span class="fc" id="L26">        return ResponseEntity.ok(service.obtenerCarritoPorUsuario(usuarioId));</span>
     }
 
     // H16: Agregar un producto al carrito
     @PostMapping
     public ResponseEntity&lt;CarritoItem&gt; agregarItem(@Valid @RequestBody CarritoItemDTO dto) {
-<span class="nc" id="L32">        return new ResponseEntity&lt;&gt;(service.agregarItem(dto), HttpStatus.CREATED);</span>
+<span class="fc" id="L32">        return new ResponseEntity&lt;&gt;(service.agregarItem(dto), HttpStatus.CREATED);</span>
     }
 
     // H16: Actualizar la cantidad de un ítem del carrito
@@ -37,21 +37,21 @@ public class CarritoController {
     public ResponseEntity&lt;CarritoItem&gt; actualizarCantidad(
             @PathVariable Long id,
             @RequestParam Integer cantidad) {
-<span class="nc" id="L40">        return ResponseEntity.ok(service.actualizarCantidad(id, cantidad));</span>
+<span class="fc" id="L40">        return ResponseEntity.ok(service.actualizarCantidad(id, cantidad));</span>
     }
 
     // H16: Quitar un producto del carrito
     @DeleteMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Void&gt; eliminarItem(@PathVariable Long id) {
-<span class="nc" id="L46">        service.eliminarItem(id);</span>
-<span class="nc" id="L47">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L46">        service.eliminarItem(id);</span>
+<span class="fc" id="L47">        return ResponseEntity.noContent().build();</span>
     }
 
     // H16: Vaciar todo el carrito (se llama al confirmar pedido)
     @DeleteMapping(&quot;/usuario/{usuarioId}/vaciar&quot;)
     public ResponseEntity&lt;Void&gt; vaciarCarrito(@PathVariable Long usuarioId) {
-<span class="nc" id="L53">        service.vaciarCarrito(usuarioId);</span>
-<span class="nc" id="L54">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L53">        service.vaciarCarrito(usuarioId);</span>
+<span class="fc" id="L54">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

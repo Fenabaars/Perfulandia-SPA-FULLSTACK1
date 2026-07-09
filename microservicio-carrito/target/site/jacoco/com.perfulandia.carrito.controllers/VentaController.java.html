@@ -16,37 +16,37 @@ public class VentaController {
 
     private final VentaService service;
 
-<span class="nc" id="L19">    public VentaController(VentaService service) {</span>
-<span class="nc" id="L20">        this.service = service;</span>
-<span class="nc" id="L21">    }</span>
+<span class="fc" id="L19">    public VentaController(VentaService service) {</span>
+<span class="fc" id="L20">        this.service = service;</span>
+<span class="fc" id="L21">    }</span>
 
     @GetMapping
     public ResponseEntity&lt;List&lt;Venta&gt;&gt; obtenerTodas() {
-<span class="nc" id="L25">        return ResponseEntity.ok(service.obtenerTodas());</span>
+<span class="fc" id="L25">        return ResponseEntity.ok(service.obtenerTodas());</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Venta&gt; obtenerPorId(@PathVariable Long id) {
-<span class="nc" id="L30">        return ResponseEntity.ok(service.obtenerPorId(id));</span>
+<span class="fc" id="L30">        return ResponseEntity.ok(service.obtenerPorId(id));</span>
     }
 
     // Ventas registradas por sucursal
     @GetMapping(&quot;/sucursal/{sucursalId}&quot;)
     public ResponseEntity&lt;List&lt;Venta&gt;&gt; obtenerPorSucursal(@PathVariable Long sucursalId) {
-<span class="nc" id="L36">        return ResponseEntity.ok(service.obtenerPorSucursal(sucursalId));</span>
+<span class="fc" id="L36">        return ResponseEntity.ok(service.obtenerPorSucursal(sucursalId));</span>
     }
 
     // H18: Registrar venta física en la sucursal (descuenta inventario implícitamente)
     @PostMapping
     public ResponseEntity&lt;Venta&gt; registrarVenta(@Valid @RequestBody VentaDTO dto) {
-<span class="nc" id="L42">        return new ResponseEntity&lt;&gt;(service.registrarVenta(dto), HttpStatus.CREATED);</span>
+<span class="fc" id="L42">        return new ResponseEntity&lt;&gt;(service.registrarVenta(dto), HttpStatus.CREATED);</span>
     }
 
     // Eliminar registro de venta
     @DeleteMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Void&gt; eliminarVenta(@PathVariable Long id) {
-<span class="nc" id="L48">        service.eliminarVenta(id);</span>
-<span class="nc" id="L49">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L48">        service.eliminarVenta(id);</span>
+<span class="fc" id="L49">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

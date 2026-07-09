@@ -1,1 +1,8 @@
+com\perfulandia\carrito\exceptions\GlobalExceptionHandlerTest.class
+com\perfulandia\carrito\controllers\CarritoControllerTest.class
+com\perfulandia\carrito\controllers\PedidoControllerTest.class
+com\perfulandia\carrito\services\VentaServiceTest.class
+com\perfulandia\carrito\CarritoApplicationTests.class
+com\perfulandia\carrito\services\CarritoServiceTest.class
 com\perfulandia\carrito\services\PedidoServiceTest.class
+com\perfulandia\carrito\controllers\VentaControllerTest.class

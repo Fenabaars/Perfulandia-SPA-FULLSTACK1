@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,45 +27,77 @@ class SucursalServiceTest {
     @InjectMocks
     private SucursalService service;
 
-    private Sucursal sucursalMock;
-    private SucursalDTO dtoMock;
+    private Sucursal sucursal;
+    private SucursalDTO dto;
 
     @BeforeEach
     void setUp() {
-        sucursalMock = new Sucursal("Sucursal Centro", "Calle 1", "Santiago", "12345", "09:00 - 18:00");
-        sucursalMock.setId(1L);
+        sucursal = new Sucursal("Sucursal Central", "Calle 1", "Centro", "123456", "9-18");
+        sucursal.setId(1L);
 
-        dtoMock = new SucursalDTO();
-        dtoMock.setNombre("Sucursal Centro");
-        dtoMock.setDireccion("Calle 1");
-        dtoMock.setComuna("Santiago");
+        dto = new SucursalDTO();
+        dto.setNombre("Sucursal Central");
+        dto.setDireccion("Calle 1");
+        dto.setComuna("Centro");
+        dto.setTelefono("123456");
+        dto.setHorarioAtencion("9-18");
     }
 
     @Test
-    void givenSucursalValida_whenRegistrarSucursal_thenRetornaSucursalCreada() {
-        // Given
-        when(repository.save(any(Sucursal.class))).thenReturn(sucursalMock);
+    void testObtenerTodas() {
+        when(repository.findAll()).thenReturn(Arrays.asList(sucursal));
+        List<Sucursal> result = service.obtenerTodas();
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+    }
 
-        // When
-        Sucursal resultado = service.registrarSucursal(dtoMock);
+    @Test
+    void testObtenerPorId() {
+        when(repository.findById(1L)).thenReturn(Optional.of(sucursal));
+        Sucursal result = service.obtenerPorId(1L);
+        assertNotNull(result);
+        assertEquals("Sucursal Central", result.getNombre());
+    }
 
-        // Then
-        assertNotNull(resultado);
-        assertEquals("Santiago", resultado.getComuna());
+    @Test
+    void testObtenerPorId_NotFound() {
+        when(repository.findById(1L)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> service.obtenerPorId(1L));
+    }
+
+    @Test
+    void testBuscarPorComuna() {
+        when(repository.findByComunaContainingIgnoreCase("Centro")).thenReturn(Arrays.asList(sucursal));
+        List<Sucursal> result = service.buscarPorComuna("Centro");
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void testRegistrarSucursal() {
+        when(repository.save(any(Sucursal.class))).thenReturn(sucursal);
+
+        Sucursal result = service.registrarSucursal(dto);
+        assertNotNull(result);
         verify(repository, times(1)).save(any(Sucursal.class));
     }
 
     @Test
-    void givenSucursalNoExistente_whenObtenerPorId_thenLanzaExcepcion() {
-        // Given
-        when(repository.findById(99L)).thenReturn(Optional.empty());
+    void testActualizarSucursal() {
+        when(repository.findById(1L)).thenReturn(Optional.of(sucursal));
+        when(repository.save(any(Sucursal.class))).thenReturn(sucursal);
 
-        // When & Then
-        Exception exception = assertThrows(RuntimeException.class, () -> {
-            service.obtenerPorId(99L);
-        });
+        Sucursal result = service.actualizarSucursal(1L, dto);
+        assertNotNull(result);
+        assertEquals("Sucursal Central", result.getNombre());
+    }
 
-        assertEquals("Sucursal no encontrada", exception.getMessage());
-        verify(repository, times(1)).findById(99L);
+    @Test
+    void testEliminarSucursal() {
+        when(repository.findById(1L)).thenReturn(Optional.of(sucursal));
+        doNothing().when(repository).delete(any(Sucursal.class));
+
+        service.eliminarSucursal(1L);
+        verify(repository, times(1)).delete(sucursal);
     }
 }

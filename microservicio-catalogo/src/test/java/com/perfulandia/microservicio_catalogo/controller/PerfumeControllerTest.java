@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.perfulandia.microservicio_catalogo.dto.PerfumeDTO;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -92,7 +94,7 @@ class PerfumeControllerTest {
         when(perfumeService.createPerfume(any(Perfume.class))).thenReturn(perfume);
 
         // When
-        ResponseEntity<Perfume> response = perfumeController.createPerfume(new Perfume());
+        ResponseEntity<Perfume> response = perfumeController.createPerfume(new PerfumeDTO());
 
         // Then
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -107,7 +109,7 @@ class PerfumeControllerTest {
         when(perfumeService.updatePerfume(eq(1L), any(Perfume.class))).thenReturn(Optional.of(perfume));
 
         // When
-        ResponseEntity<Perfume> response = perfumeController.updatePerfume(1L, new Perfume());
+        ResponseEntity<Perfume> response = perfumeController.updatePerfume(1L, new PerfumeDTO());
 
         // Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -122,7 +124,7 @@ class PerfumeControllerTest {
         when(perfumeService.updatePerfume(eq(1L), any(Perfume.class))).thenReturn(Optional.empty());
 
         // When
-        ResponseEntity<Perfume> response = perfumeController.updatePerfume(1L, new Perfume());
+        ResponseEntity<Perfume> response = perfumeController.updatePerfume(1L, new PerfumeDTO());
 
         // Then
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

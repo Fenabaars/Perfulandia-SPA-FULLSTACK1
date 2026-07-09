@@ -2,24 +2,30 @@ package com.perfulandia.promocion.service;
 
 import com.perfulandia.promocion.entity.Promocion;
 import com.perfulandia.promocion.repository.PromocionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
+@SuppressWarnings("null")
 public class PromocionService {
 
-    @Autowired
-    private PromocionRepository promocionRepository;
+    private final PromocionRepository promocionRepository;
+
+    public PromocionService(PromocionRepository promocionRepository) {
+        this.promocionRepository = promocionRepository;
+    }
 
     public List<Promocion> getAllPromotions() {
         return promocionRepository.findAll();
     }
 
     public Promocion createPromotion(Promocion promocion) {
+        log.info("Guardando nueva promocion: {}", promocion.getCodigo());
         return promocionRepository.save(promocion);
     }
 
@@ -32,6 +38,7 @@ public class PromocionService {
                     promocion.setFechaInicio(promocionDetails.getFechaInicio());
                     promocion.setFechaFin(promocionDetails.getFechaFin());
                     promocion.setActivo(promocionDetails.getActivo());
+                    log.info("Actualizada promocion: {}", id);
                     return promocionRepository.save(promocion);
                 });
     }
@@ -40,6 +47,7 @@ public class PromocionService {
         return promocionRepository.findById(id)
                 .map(promocion -> {
                     promocionRepository.delete(promocion);
+                    log.info("Promocion eliminada: {}", id);
                     return true;
                 })
                 .orElse(false);

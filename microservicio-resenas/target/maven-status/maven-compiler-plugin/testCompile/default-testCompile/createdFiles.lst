@@ -1,1 +1,4 @@
+com\perfulandia\resenas\exceptions\GlobalExceptionHandlerTest.class
+com\perfulandia\resenas\ResenasApplicationTests.class
+com\perfulandia\resenas\controller\ResenaControllerTest.class
 com\perfulandia\resenas\service\ResenaServiceTest.class

@@ -2,43 +2,52 @@
 
 import com.perfulandia.resenas.entity.Resena;
 import com.perfulandia.resenas.repository.ResenaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+<span class="fc" id="L12">@Slf4j</span>
 @Service
-<span class="fc" id="L13">public class ResenaService {</span>
+@SuppressWarnings(&quot;null&quot;)
+public class ResenaService {
 
-    @Autowired
-    private ResenaRepository resenaRepository;
+    private final ResenaRepository resenaRepository;
+
+<span class="fc" id="L19">    public ResenaService(ResenaRepository resenaRepository) {</span>
+<span class="fc" id="L20">        this.resenaRepository = resenaRepository;</span>
+<span class="fc" id="L21">    }</span>
 
     public Object createResena(Resena resena) {
-<span class="pc bpc" id="L19" title="2 of 6 branches missed.">        if (resena.getCalificacion() == null || resena.getCalificacion() &lt; 1 || resena.getCalificacion() &gt; 5) {</span>
-<span class="fc" id="L20">            return &quot;La calificación debe estar entre 1 y 5.&quot;;</span>
+<span class="fc bfc" id="L24" title="All 6 branches covered.">        if (resena.getCalificacion() == null || resena.getCalificacion() &lt; 1 || resena.getCalificacion() &gt; 5) {</span>
+<span class="fc" id="L25">            log.warn(&quot;Fallo validacion de resena: calificacion invalida {}&quot;, resena.getCalificacion());</span>
+<span class="fc" id="L26">            return &quot;La calificación debe estar entre 1 y 5.&quot;;</span>
         }
         
-<span class="fc" id="L23">        resena.setFechaCreacion(LocalDate.now());</span>
-<span class="fc" id="L24">        return resenaRepository.save(resena);</span>
+<span class="fc" id="L29">        resena.setFechaCreacion(LocalDate.now());</span>
+<span class="fc" id="L30">        log.info(&quot;Guardando nueva resena para producto id: {}&quot;, resena.getProductoId());</span>
+<span class="fc" id="L31">        return resenaRepository.save(resena);</span>
     }
 
     public List&lt;Resena&gt; getResenasByProductoId(Long productoId) {
-<span class="nc" id="L28">        return resenaRepository.findByProductoId(productoId);</span>
+<span class="fc" id="L35">        return resenaRepository.findByProductoId(productoId);</span>
     }
 
     public boolean deleteResena(Long id) {
-<span class="nc" id="L32">        Optional&lt;Resena&gt; resena = resenaRepository.findById(id);</span>
-<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (resena.isPresent()) {</span>
-<span class="nc" id="L34">            resenaRepository.deleteById(id);</span>
-<span class="nc" id="L35">            return true;</span>
+<span class="fc" id="L39">        Optional&lt;Resena&gt; resena = resenaRepository.findById(id);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (resena.isPresent()) {</span>
+<span class="fc" id="L41">            resenaRepository.deleteById(id);</span>
+<span class="fc" id="L42">            log.info(&quot;Resena eliminada id: {}&quot;, id);</span>
+<span class="fc" id="L43">            return true;</span>
         }
-<span class="nc" id="L37">        return false;</span>
+<span class="fc" id="L45">        log.warn(&quot;Intento de eliminar resena inexistente id: {}&quot;, id);</span>
+<span class="fc" id="L46">        return false;</span>
     }
 
     public List&lt;Resena&gt; getAllResenas() {
-<span class="nc" id="L41">        return resenaRepository.findAll();</span>
+<span class="fc" id="L50">        return resenaRepository.findAll();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
