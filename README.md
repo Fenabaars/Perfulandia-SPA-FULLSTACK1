@@ -49,14 +49,21 @@ La plataforma está configurada para ejecutarse localmente conectándose a un se
 1. Abre el panel de control de **XAMPP** y arranca el servicio **MySQL**.
    *(Nota: Asegúrate de que MySQL esté corriendo en el puerto por defecto `3306` con el usuario `root` y sin contraseña).*
 2. Los microservicios están configurados con `createDatabaseIfNotExist=true`, por lo que **crearán sus respectivas bases de datos automáticamente** al iniciar. No necesitas crearlas manualmente.
-3. Para levantar la plataforma, debes ejecutar cada microservicio de manera independiente. Puedes hacerlo desde tu IDE favorito (como IntelliJ o VS Code) ejecutando la clase principal de cada proyecto, o desde la terminal usando Maven:
-   ```bash
-   # Ejemplo para iniciar el microservicio catalogo:
-   cd microservicio-catalogo
-   mvn spring-boot:run
-   ```
-4. Se recomienda levantar el **API Gateway** (`microservicio-api-gateway`) y luego los demás microservicios en el orden deseado.
+3. Para levantar la plataforma, puedes iniciar cada microservicio de manera independiente desde tu IDE (IntelliJ, VS Code) o terminal (`mvn spring-boot:run`). Se recomienda iniciar el **API Gateway** primero.
 
+### ⚙️ Automatización en Terminal (Windows / PowerShell)
+Para acelerar el despliegue local, abre una terminal de **PowerShell** en la carpeta raíz del repositorio y utiliza estos comandos automatizados:
+
+**1. Compilar todos los microservicios a la vez:**
+```powershell
+Get-ChildItem -Directory -Filter "microservicio-*" | ForEach-Object { Write-Host "Compilando $($_.Name)..." -ForegroundColor Cyan; cd $_.FullName; mvn clean install -DskipTests; cd .. }
+```
+
+**2. Ejecutar todos los microservicios al mismo tiempo:**
+*(Este comando abrirá automáticamente una nueva ventana emergente para cada microservicio. Podrás tenerlas todas en tu pantalla para ver sus logs en tiempo real).*
+```powershell
+Get-ChildItem -Directory -Filter "microservicio-*" | ForEach-Object { Start-Process "cmd.exe" "/k `"title $($_.Name) && cd $($_.Name) && mvn spring-boot:run`"" }
+```
 ---
 
 ## 📖 Documentación de las APIs (Swagger)
