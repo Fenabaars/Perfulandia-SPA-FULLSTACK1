@@ -14,6 +14,8 @@ spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQLDialect
 
 ---
 spring:
+  profiles:
+    active: dev
   config:
     activate:
       on-profile: dev

@@ -1,5 +1,6 @@
 package com.perfulandia.microservicio_catalogo.controller;
 
+
 import com.perfulandia.microservicio_catalogo.model.Perfume;
 import com.perfulandia.microservicio_catalogo.service.PerfumeService;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import com.perfulandia.microservicio_catalogo.dto.PerfumeDTO;
 @RequestMapping("/api/catalog")
 public class PerfumeController {
 
+
     private final PerfumeService perfumeService;
 
     public PerfumeController(PerfumeService perfumeService) {
@@ -28,12 +30,14 @@ public class PerfumeController {
     // 1. Obtener todos los perfumes (GET)
     @GetMapping
     public List<Perfume> getAllPerfumes() {
+        log.info("Petición REST recibida en PerfumeController");
         return perfumeService.getAllPerfumes();
     }
 
     // 2. Obtener un perfume específico por su ID (GET)
     @GetMapping("/{id}")
     public ResponseEntity<Perfume> getPerfumeById(@PathVariable Long id) {
+        log.info("Petición REST recibida en PerfumeController");
         Optional<Perfume> perfume = perfumeService.getPerfumeById(id);
         return perfume.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -42,6 +46,7 @@ public class PerfumeController {
     // 3. Crear un nuevo perfume (POST)
     @PostMapping
     public ResponseEntity<Perfume> createPerfume(@Valid @RequestBody PerfumeDTO perfumeDTO) {
+        log.info("Petición REST recibida en PerfumeController");
         log.info("Creando nuevo perfume: {}", perfumeDTO.getNombre());
         Perfume perfume = new Perfume();
         BeanUtils.copyProperties(perfumeDTO, perfume);
@@ -52,6 +57,7 @@ public class PerfumeController {
     // 4. Actualizar un perfume existente (PUT)
     @PutMapping("/{id}")
     public ResponseEntity<Perfume> updatePerfume(@PathVariable Long id, @Valid @RequestBody PerfumeDTO perfumeDTO) {
+        log.info("Petición REST recibida en PerfumeController");
         log.info("Actualizando perfume con id: {}", id);
         Perfume perfumeDetalles = new Perfume();
         BeanUtils.copyProperties(perfumeDTO, perfumeDetalles);
@@ -63,6 +69,7 @@ public class PerfumeController {
     // 5. Eliminar un perfume (DELETE)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerfume(@PathVariable Long id) {
+        log.info("Petición REST recibida en PerfumeController");
         if (perfumeService.deletePerfume(id)) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {

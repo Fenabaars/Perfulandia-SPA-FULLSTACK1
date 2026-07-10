@@ -1,5 +1,6 @@
 package com.perfulandia.envios.controllers;
 
+
 import com.perfulandia.envios.models.entities.Envio;
 import com.perfulandia.envios.services.EnvioService;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ import com.perfulandia.envios.dto.EnvioDTO;
 @Tag(name = "Envíos", description = "API para la gestión logística de los despachos")
 public class EnvioController {
 
+
     private final EnvioService service;
 
     public EnvioController(EnvioService service) {
@@ -28,21 +30,25 @@ public class EnvioController {
 
     @GetMapping
     public ResponseEntity<List<Envio>> obtenerTodos() {
+        log.info("Petición REST recibida en EnvioController");
         return ResponseEntity.ok(service.obtenerTodos());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Envio> obtenerPorId(@PathVariable Long id) {
+        log.info("Petición REST recibida en EnvioController");
         return ResponseEntity.ok(service.obtenerPorId(id));
     }
     
     @GetMapping("/pedido/{pedidoId}")
     public ResponseEntity<Envio> obtenerPorPedidoId(@PathVariable Long pedidoId) {
+        log.info("Petición REST recibida en EnvioController");
         return ResponseEntity.ok(service.obtenerPorPedidoId(pedidoId));
     }
 
     @PostMapping
     public ResponseEntity<Envio> registrarEnvio(@Valid @RequestBody EnvioDTO envioDTO) {
+        log.info("Petición REST recibida en EnvioController");
         log.info("Registrando nuevo envio para el pedido: {}", envioDTO.getPedidoId());
         Envio envio = new Envio();
         BeanUtils.copyProperties(envioDTO, envio);
@@ -53,6 +59,7 @@ public class EnvioController {
     public ResponseEntity<Envio> actualizarEstado(
             @PathVariable Long id,
             @RequestParam String estado) {
+        log.info("Petición REST recibida en EnvioController");
         log.info("Actualizando estado del envio con id {} a {}", id, estado);
         return ResponseEntity.ok(service.actualizarEstado(id, estado));
     }

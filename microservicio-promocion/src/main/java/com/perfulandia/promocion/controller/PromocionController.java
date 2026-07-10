@@ -1,5 +1,6 @@
 ﻿package com.perfulandia.promocion.controller;
 
+
 import com.perfulandia.promocion.entity.Promocion;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import com.perfulandia.promocion.dto.PromocionDTO;
 @RequestMapping("/api/promotions")
 public class PromocionController {
 
+
     private final com.perfulandia.promocion.service.PromocionService promocionService;
 
     public PromocionController(com.perfulandia.promocion.service.PromocionService promocionService) {
@@ -25,11 +27,13 @@ public class PromocionController {
 
     @GetMapping
     public ResponseEntity<List<Promocion>> getAllPromotions() {
+        log.info("Petición REST recibida en PromocionController");
         return ResponseEntity.ok(promocionService.getAllPromotions());
     }
 
     @PostMapping
     public ResponseEntity<Promocion> createPromotion(@Valid @RequestBody PromocionDTO promocionDTO) {
+        log.info("Petición REST recibida en PromocionController");
         log.info("Creando promocion: {}", promocionDTO.getCodigo());
         Promocion promocion = new Promocion();
         BeanUtils.copyProperties(promocionDTO, promocion);
@@ -39,6 +43,7 @@ public class PromocionController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Promocion> updatePromotion(@PathVariable Long id, @Valid @RequestBody PromocionDTO promocionDTO) {
+        log.info("Petición REST recibida en PromocionController");
         log.info("Actualizando promocion id: {}", id);
         Promocion promocionDetails = new Promocion();
         BeanUtils.copyProperties(promocionDTO, promocionDetails);
@@ -49,6 +54,7 @@ public class PromocionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePromotion(@PathVariable Long id) {
+        log.info("Petición REST recibida en PromocionController");
         if (promocionService.deletePromotion(id)) {
             return ResponseEntity.ok().<Void>build();
         } else {
@@ -58,6 +64,7 @@ public class PromocionController {
 
     @GetMapping("/validate/{codigo}")
     public ResponseEntity<?> validatePromotion(@PathVariable String codigo) {
+        log.info("Petición REST recibida en PromocionController");
         Object validacion = promocionService.validatePromotion(codigo);
         if (validacion instanceof String) {
             String msj = (String) validacion;
