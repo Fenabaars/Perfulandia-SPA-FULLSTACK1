@@ -1,0 +1,10 @@
+com\perfulandia\envio\repositories\EnvioRepository.class
+com\perfulandia\envio\repositories\HistorialEnvioRepository.class
+com\perfulandia\envio\controllers\EnvioController.class
+com\perfulandia\envio\models\entities\Envio.class
+com\perfulandia\envio\models\dtos\EnvioDTO.class
+com\perfulandia\envio\EnvioApplication.class
+com\perfulandia\envio\models\dtos\ActualizarEstadoDTO.class
+com\perfulandia\envio\exceptions\GlobalExceptionHandler.class
+com\perfulandia\envio\services\EnvioService.class
+com\perfulandia\envio\models\entities\HistorialEnvio.class
