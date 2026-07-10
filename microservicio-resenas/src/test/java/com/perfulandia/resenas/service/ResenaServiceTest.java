@@ -1,4 +1,4 @@
-package com.perfulandia.resenas.service;
+﻿package com.perfulandia.resenas.service;
 
 import com.perfulandia.resenas.entity.Resena;
 import com.perfulandia.resenas.repository.ResenaRepository;
@@ -18,7 +18,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class ResenaServiceTest {
 
     @Mock

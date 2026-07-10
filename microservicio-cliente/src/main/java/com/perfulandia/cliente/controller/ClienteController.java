@@ -1,4 +1,4 @@
-package com.perfulandia.cliente.controller;
+﻿package com.perfulandia.cliente.controller;
 
 import com.perfulandia.cliente.model.Cliente;
 import com.perfulandia.cliente.service.ClienteService;
@@ -18,7 +18,6 @@ import com.perfulandia.cliente.dto.ClienteDTO;
 @Slf4j
 @RestController
 @RequestMapping("/api/customers")
-@SuppressWarnings("null")
 public class ClienteController {
 
     private final ClienteService clienteService;

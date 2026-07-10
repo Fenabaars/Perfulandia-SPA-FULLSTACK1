@@ -1,4 +1,4 @@
-package com.perfulandia.cliente.service;
+﻿package com.perfulandia.cliente.service;
 
 import com.perfulandia.cliente.model.Cliente;
 import com.perfulandia.cliente.repository.ClienteRepository;
@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class ClienteServiceTest {
 
     @Mock

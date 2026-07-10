@@ -1,4 +1,4 @@
-package com.perfulandia.microservicio_catalogo.controller;
+﻿package com.perfulandia.microservicio_catalogo.controller;
 
 import com.perfulandia.microservicio_catalogo.model.Perfume;
 import com.perfulandia.microservicio_catalogo.service.PerfumeService;
@@ -22,7 +22,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class PerfumeControllerTest {
 
     @Mock

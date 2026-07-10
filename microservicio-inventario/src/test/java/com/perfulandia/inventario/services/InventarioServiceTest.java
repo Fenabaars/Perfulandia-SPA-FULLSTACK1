@@ -1,4 +1,4 @@
-package com.perfulandia.inventario.services;
+﻿package com.perfulandia.inventario.services;
 
 import com.perfulandia.inventario.clients.PerfumeClient;
 import com.perfulandia.inventario.clients.SucursalClient;
@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class InventarioServiceTest {
 
     @Mock

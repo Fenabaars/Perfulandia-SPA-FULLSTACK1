@@ -1,4 +1,4 @@
-package com.perfulandia.sucursal.services;
+﻿package com.perfulandia.sucursal.services;
 
 import com.perfulandia.sucursal.models.dtos.SucursalDTO;
 import com.perfulandia.sucursal.models.entities.Sucursal;
@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class SucursalServiceTest {
 
     @Mock

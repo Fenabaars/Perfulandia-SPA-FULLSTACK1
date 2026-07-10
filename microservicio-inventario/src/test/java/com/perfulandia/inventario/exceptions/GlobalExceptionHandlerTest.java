@@ -1,4 +1,4 @@
-package com.perfulandia.inventario.exceptions;
+﻿package com.perfulandia.inventario.exceptions;
 
 import feign.FeignException;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("null")
 class GlobalExceptionHandlerTest {
 
     private GlobalExceptionHandler exceptionHandler;

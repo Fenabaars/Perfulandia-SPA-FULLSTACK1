@@ -1,4 +1,4 @@
-package com.perfulandia.promocion.service;
+﻿package com.perfulandia.promocion.service;
 
 import com.perfulandia.promocion.entity.Promocion;
 import com.perfulandia.promocion.repository.PromocionRepository;
@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@SuppressWarnings("null")
 public class PromocionService {
 
     private final PromocionRepository promocionRepository;

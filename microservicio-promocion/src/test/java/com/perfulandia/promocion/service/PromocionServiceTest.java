@@ -1,4 +1,4 @@
-package com.perfulandia.promocion.service;
+﻿package com.perfulandia.promocion.service;
 
 import com.perfulandia.promocion.entity.Promocion;
 import com.perfulandia.promocion.repository.PromocionRepository;
@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class PromocionServiceTest {
 
     @Mock

@@ -1,4 +1,4 @@
-package com.perfulandia.inventario.controllers;
+﻿package com.perfulandia.inventario.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perfulandia.inventario.models.dtos.InventarioDTO;
@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(InventarioController.class)
-@SuppressWarnings("null")
 class InventarioControllerTest {
 
     @Autowired

@@ -1,4 +1,4 @@
-package com.perfulandia.carrito.services;
+﻿package com.perfulandia.carrito.services;
 
 import com.perfulandia.carrito.models.dtos.CarritoItemDTO;
 import com.perfulandia.carrito.models.entities.CarritoItem;
@@ -20,7 +20,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class CarritoServiceTest {
 
     @Mock

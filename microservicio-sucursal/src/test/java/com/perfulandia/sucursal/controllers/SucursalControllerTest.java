@@ -1,4 +1,4 @@
-package com.perfulandia.sucursal.controllers;
+﻿package com.perfulandia.sucursal.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perfulandia.sucursal.models.dtos.SucursalDTO;
@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(SucursalController.class)
-@SuppressWarnings("null")
 class SucursalControllerTest {
 
     @Autowired

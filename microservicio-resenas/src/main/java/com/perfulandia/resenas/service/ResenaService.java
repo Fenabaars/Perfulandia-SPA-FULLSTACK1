@@ -1,4 +1,4 @@
-package com.perfulandia.resenas.service;
+﻿package com.perfulandia.resenas.service;
 
 import com.perfulandia.resenas.entity.Resena;
 import com.perfulandia.resenas.repository.ResenaRepository;
@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@SuppressWarnings("null")
 public class ResenaService {
 
     private final ResenaRepository resenaRepository;

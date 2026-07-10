@@ -1,4 +1,4 @@
-package com.perfulandia.usuario.services;
+﻿package com.perfulandia.usuario.services;
 
 import com.perfulandia.usuario.models.dtos.LoginDTO;
 import com.perfulandia.usuario.models.dtos.UsuarioDTO;
@@ -20,7 +20,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class UsuarioServiceTest {
 
     @Mock

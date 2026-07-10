@@ -1,4 +1,4 @@
-package com.perfulandia.promocion.controller;
+﻿package com.perfulandia.promocion.controller;
 
 import com.perfulandia.promocion.entity.Promocion;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,6 @@ import com.perfulandia.promocion.dto.PromocionDTO;
 @Slf4j
 @RestController
 @RequestMapping("/api/promotions")
-@SuppressWarnings("null")
 public class PromocionController {
 
     private final com.perfulandia.promocion.service.PromocionService promocionService;

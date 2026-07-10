@@ -1,4 +1,4 @@
-package com.perfulandia.promocion.controller;
+﻿package com.perfulandia.promocion.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PromocionController.class)
-@SuppressWarnings("null")
 class PromocionControllerTest {
 
     @Autowired

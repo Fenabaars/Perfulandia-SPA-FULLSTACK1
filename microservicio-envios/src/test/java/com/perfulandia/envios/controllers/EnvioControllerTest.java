@@ -1,4 +1,4 @@
-package com.perfulandia.envios.controllers;
+﻿package com.perfulandia.envios.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perfulandia.envios.dto.EnvioDTO;
@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(EnvioController.class)
-@SuppressWarnings("null")
 class EnvioControllerTest {
 
     @Autowired

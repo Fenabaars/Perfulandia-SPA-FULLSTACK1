@@ -1,4 +1,4 @@
-package com.perfulandia.envios.services;
+﻿package com.perfulandia.envios.services;
 
 import com.perfulandia.envios.models.entities.Envio;
 import com.perfulandia.envios.repositories.EnvioRepository;
@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class EnvioServiceTest {
 
     @Mock

@@ -1,4 +1,4 @@
-package com.perfulandia.microservicio_catalogo.service;
+﻿package com.perfulandia.microservicio_catalogo.service;
 
 import com.perfulandia.microservicio_catalogo.model.Perfume;
 import com.perfulandia.microservicio_catalogo.repository.PerfumeRepository;
@@ -18,7 +18,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("null")
 class PerfumeServiceTest {
 
     @Mock

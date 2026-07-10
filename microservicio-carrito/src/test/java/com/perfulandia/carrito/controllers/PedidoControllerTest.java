@@ -1,4 +1,4 @@
-package com.perfulandia.carrito.controllers;
+﻿package com.perfulandia.carrito.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(PedidoController.class)
-@SuppressWarnings("null")
 class PedidoControllerTest {
 
     @Autowired

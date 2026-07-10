@@ -1,4 +1,4 @@
-package com.perfulandia.resenas.controller;
+﻿package com.perfulandia.resenas.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -21,7 +21,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ResenaController.class)
-@SuppressWarnings("null")
 class ResenaControllerTest {
 
     @Autowired

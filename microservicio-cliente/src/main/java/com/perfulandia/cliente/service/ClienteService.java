@@ -1,4 +1,4 @@
-package com.perfulandia.cliente.service;
+﻿package com.perfulandia.cliente.service;
 
 import com.perfulandia.cliente.model.Cliente;
 import com.perfulandia.cliente.repository.ClienteRepository;
@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-@SuppressWarnings("null")
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;

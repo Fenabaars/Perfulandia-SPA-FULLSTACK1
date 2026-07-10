@@ -1,4 +1,4 @@
-package com.perfulandia.cliente.controller;
+﻿package com.perfulandia.cliente.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -23,7 +23,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ClienteController.class)
-@SuppressWarnings("null")
 class ClienteControllerTest {
 
     @Autowired
