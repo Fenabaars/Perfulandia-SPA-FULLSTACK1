@@ -1,4 +1,5 @@
 server:
+  port: 9090
   port: 8093
 
 spring:
@@ -23,7 +24,7 @@ spring:
           predicates:
             - Path=/api/carrito/**, /api/carritos/**, /api/pedidos/**, /api/ventas/**
         - id: microservicio-catalogo
-          uri: http://localhost:8081
+          uri: http://localhost:9091
           predicates:
             - Path=/api/catalogo/**, /api/catalog/**, /api/productos/**, /api/categorias/**, /api/marcas/**
         - id: microservicio-cliente

@@ -23,8 +23,8 @@ El proyecto cuenta con **10 microservicios** de negocio más un **API Gateway** 
 
 | Microservicio | Puerto | Descripción |
 | --- | --- | --- |
-| `microservicio-api-gateway` | `8080` | Puerta de enlace unificada y enrutador hacia los demás servicios. |
-| `microservicio-catalogo` | `8081` | Gestión de perfumes, descripciones y precios. |
+| `microservicio-api-gateway` | `9090` | Puerta de enlace unificada y enrutador hacia los demás servicios. |
+| `microservicio-catalogo` | `9091` | Gestión de perfumes, descripciones y precios. |
 | `microservicio-usuario` | `8082` | Gestión de cuentas de usuario, autenticación básica y roles. |
 | `microservicio-sucursal` | `8083` | Administración de tiendas físicas y su información de contacto. |
 | `microservicio-proveedor` | `8084` | Registro y administración de empresas proveedoras. |
@@ -71,7 +71,7 @@ Get-ChildItem -Directory -Filter "microservicio-*" | ForEach-Object { Start-Proc
 Todos los microservicios cuentan con documentación autogenerada y consumible. Al levantar la aplicación (ya sea por Docker o localmente), puedes acceder a la interfaz de Swagger de cada servicio.
 
 Ejemplos:
-- **Catálogo:** [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
+- **Catálogo:** [http://localhost:9091/swagger-ui.html](http://localhost:9091/swagger-ui.html)
 - **Usuario:** [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
 - **Sucursal:** [http://localhost:8083/swagger-ui.html](http://localhost:8083/swagger-ui.html)
 - **Proveedor:** [http://localhost:8084/swagger-ui.html](http://localhost:8084/swagger-ui.html)
