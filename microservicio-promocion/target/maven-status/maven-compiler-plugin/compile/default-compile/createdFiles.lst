@@ -1,0 +1,7 @@
+com\perfulandia\promocion\entity\Promocion.class
+com\perfulandia\promocion\service\PromocionService.class
+com\perfulandia\promocion\exceptions\GlobalExceptionHandler.class
+com\perfulandia\promocion\repository\PromocionRepository.class
+com\perfulandia\promocion\dto\PromocionDTO.class
+com\perfulandia\promocion\controller\PromocionController.class
+com\perfulandia\promocion\PromocionApplication.class

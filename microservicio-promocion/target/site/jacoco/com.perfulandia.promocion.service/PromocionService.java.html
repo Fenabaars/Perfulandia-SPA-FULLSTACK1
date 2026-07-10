@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PromocionService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservicio-promocion</a> &gt; <a href="index.source.html" class="el_package">com.perfulandia.promocion.service</a> &gt; <span class="el_source">PromocionService.java</span></div><h1>PromocionService.java</h1><pre class="source lang-java linenums">package com.perfulandia.promocion.service;
+
+import com.perfulandia.promocion.entity.Promocion;
+import com.perfulandia.promocion.repository.PromocionRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+<span class="fc" id="L12">@Slf4j</span>
+@Service
+@SuppressWarnings(&quot;null&quot;)
+public class PromocionService {
+
+    private final PromocionRepository promocionRepository;
+
+<span class="fc" id="L19">    public PromocionService(PromocionRepository promocionRepository) {</span>
+<span class="fc" id="L20">        this.promocionRepository = promocionRepository;</span>
+<span class="fc" id="L21">    }</span>
+
+    public List&lt;Promocion&gt; getAllPromotions() {
+<span class="fc" id="L24">        return promocionRepository.findAll();</span>
+    }
+
+    public Promocion createPromotion(Promocion promocion) {
+<span class="fc" id="L28">        log.info(&quot;Guardando nueva promocion: {}&quot;, promocion.getCodigo());</span>
+<span class="fc" id="L29">        return promocionRepository.save(promocion);</span>
+    }
+
+    public Optional&lt;Promocion&gt; updatePromotion(Long id, Promocion promocionDetails) {
+<span class="fc" id="L33">        return promocionRepository.findById(id)</span>
+<span class="fc" id="L34">                .map(promocion -&gt; {</span>
+<span class="fc" id="L35">                    promocion.setCodigo(promocionDetails.getCodigo());</span>
+<span class="fc" id="L36">                    promocion.setTipoDescuento(promocionDetails.getTipoDescuento());</span>
+<span class="fc" id="L37">                    promocion.setValorDescuento(promocionDetails.getValorDescuento());</span>
+<span class="fc" id="L38">                    promocion.setFechaInicio(promocionDetails.getFechaInicio());</span>
+<span class="fc" id="L39">                    promocion.setFechaFin(promocionDetails.getFechaFin());</span>
+<span class="fc" id="L40">                    promocion.setActivo(promocionDetails.getActivo());</span>
+<span class="fc" id="L41">                    log.info(&quot;Actualizada promocion: {}&quot;, id);</span>
+<span class="fc" id="L42">                    return promocionRepository.save(promocion);</span>
+                });
+    }
+
+    public boolean deletePromotion(Long id) {
+<span class="fc" id="L47">        return promocionRepository.findById(id)</span>
+<span class="fc" id="L48">                .map(promocion -&gt; {</span>
+<span class="fc" id="L49">                    promocionRepository.delete(promocion);</span>
+<span class="fc" id="L50">                    log.info(&quot;Promocion eliminada: {}&quot;, id);</span>
+<span class="fc" id="L51">                    return true;</span>
+                })
+<span class="fc" id="L53">                .orElse(false);</span>
+    }
+
+    public Object validatePromotion(String codigo) {
+<span class="fc" id="L57">        Optional&lt;Promocion&gt; promocionOpt = promocionRepository.findByCodigo(codigo);</span>
+        
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (promocionOpt.isEmpty()) {</span>
+<span class="fc" id="L60">            return &quot;El código promocional no existe.&quot;;</span>
+        }
+        
+<span class="fc" id="L63">        Promocion promocion = promocionOpt.get();</span>
+        
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (!Boolean.TRUE.equals(promocion.getActivo())) {</span>
+<span class="fc" id="L66">            return &quot;El código promocional está inactivo.&quot;;</span>
+        }
+        
+<span class="fc" id="L69">        LocalDate hoy = LocalDate.now();</span>
+<span class="fc bfc" id="L70" title="All 4 branches covered.">        if (hoy.isBefore(promocion.getFechaInicio()) || hoy.isAfter(promocion.getFechaFin())) {</span>
+<span class="fc" id="L71">            return &quot;El código promocional está vencido o aún no es válido.&quot;;</span>
+        }
+        
+<span class="fc" id="L74">        return promocion;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

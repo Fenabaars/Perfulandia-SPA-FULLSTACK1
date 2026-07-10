@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResenaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservicio-resenas</a> &gt; <a href="index.source.html" class="el_package">com.perfulandia.resenas.controller</a> &gt; <span class="el_source">ResenaController.java</span></div><h1>ResenaController.java</h1><pre class="source lang-java linenums">package com.perfulandia.resenas.controller;
+
+import com.perfulandia.resenas.entity.Resena;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import com.perfulandia.resenas.dto.ResenaDTO;
+
+<span class="fc" id="L15">@Slf4j</span>
+@RestController
+@RequestMapping(&quot;/api/reviews&quot;)
+public class ResenaController {
+
+    private final com.perfulandia.resenas.service.ResenaService resenaService;
+
+<span class="fc" id="L22">    public ResenaController(com.perfulandia.resenas.service.ResenaService resenaService) {</span>
+<span class="fc" id="L23">        this.resenaService = resenaService;</span>
+<span class="fc" id="L24">    }</span>
+
+    // 1. Como Cliente, quiero dejar una calificación (de 1 a 5 estrellas) y un comentario sobre un perfume que compré.
+    @PostMapping
+    public ResponseEntity&lt;?&gt; createResena(@Valid @RequestBody ResenaDTO resenaDTO) {
+<span class="fc" id="L29">        log.info(&quot;Creando resena para producto: {}&quot;, resenaDTO.getProductoId());</span>
+<span class="fc" id="L30">        Resena resena = new Resena();</span>
+<span class="fc" id="L31">        BeanUtils.copyProperties(resenaDTO, resena);</span>
+<span class="fc" id="L32">        Object resultado = resenaService.createResena(resena);</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (resultado instanceof String) {</span>
+<span class="fc" id="L34">            return new ResponseEntity&lt;&gt;(resultado, HttpStatus.BAD_REQUEST);</span>
+        }
+<span class="fc" id="L36">        return new ResponseEntity&lt;&gt;(resultado, HttpStatus.CREATED);</span>
+    }
+
+    // 2. Como Usuario Web, quiero ver todas las reseñas asociadas a un producto específico para decidir mi compra.
+    @GetMapping(&quot;/product/{productoId}&quot;)
+    public ResponseEntity&lt;List&lt;Resena&gt;&gt; getResenasByProductoId(@PathVariable Long productoId) {
+<span class="fc" id="L42">        return new ResponseEntity&lt;&gt;(resenaService.getResenasByProductoId(productoId), HttpStatus.OK);</span>
+    }
+
+    // 3. Como Administrador, quiero eliminar una reseña si contiene lenguaje inapropiado.
+    @DeleteMapping(&quot;/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteResena(@PathVariable Long id) {
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        if (resenaService.deleteResena(id)) {</span>
+<span class="fc" id="L49">            return new ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);</span>
+        } else {
+<span class="fc" id="L51">            return new ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);</span>
+        }
+    }
+
+    // GET general (Devuelve todas las reseñas del sistema)
+    @GetMapping
+    public ResponseEntity&lt;List&lt;Resena&gt;&gt; getAllResenas() {
+<span class="fc" id="L58">        return new ResponseEntity&lt;&gt;(resenaService.getAllResenas(), HttpStatus.OK);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

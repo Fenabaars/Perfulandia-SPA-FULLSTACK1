@@ -1,0 +1,3 @@
+com\perfulandia\envios\controllers\EnvioControllerTest.class
+com\perfulandia\envios\exceptions\GlobalExceptionHandlerTest.class
+com\perfulandia\envios\services\EnvioServiceTest.class

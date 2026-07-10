@@ -1,0 +1,24 @@
+﻿server.port: 8084
+
+# ConfiguraciÃ³n de Base de Datos MySQL
+spring.datasource.url: jdbc:mysql://localhost:3306/proveedor_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+spring.datasource.username: root
+spring.datasource.password: 
+spring.datasource.driver-class-name: com.mysql.cj.jdbc.Driver
+
+# JPA y Hibernate
+spring.jpa.hibernate.ddl-auto: update
+spring.jpa.show-sql: true
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQLDialect
+
+# InicializaciÃ³n de Datos
+spring.jpa.defer-datasource-initialization: true
+spring.sql.init.mode: always
+
+---
+spring:
+  profiles:
+    active: dev
+  config:
+    activate:
+      on-profile: dev

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClienteService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">microservicio-cliente</a> &gt; <a href="index.source.html" class="el_package">com.perfulandia.cliente.service</a> &gt; <span class="el_source">ClienteService.java</span></div><h1>ClienteService.java</h1><pre class="source lang-java linenums">package com.perfulandia.cliente.service;
+
+import com.perfulandia.cliente.model.Cliente;
+import com.perfulandia.cliente.repository.ClienteRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+<span class="fc" id="L12">@Slf4j</span>
+@Service
+@SuppressWarnings(&quot;null&quot;)
+public class ClienteService {
+
+    private final ClienteRepository clienteRepository;
+
+<span class="fc" id="L19">    public ClienteService(ClienteRepository clienteRepository) {</span>
+<span class="fc" id="L20">        this.clienteRepository = clienteRepository;</span>
+<span class="fc" id="L21">    }</span>
+
+    public Cliente createCliente(Cliente cliente) {
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (cliente.getFechaRegistro() == null) {</span>
+<span class="fc" id="L25">            cliente.setFechaRegistro(LocalDate.now());</span>
+        }
+<span class="fc" id="L27">        log.info(&quot;Guardando nuevo cliente en base de datos: {}&quot;, cliente.getEmail());</span>
+<span class="fc" id="L28">        return clienteRepository.save(cliente);</span>
+    }
+
+    public List&lt;Cliente&gt; getAllClientes() {
+<span class="fc" id="L32">        return clienteRepository.findAll();</span>
+    }
+
+    public Optional&lt;Cliente&gt; getClienteById(Long id) {
+<span class="fc" id="L36">        return clienteRepository.findById(id);</span>
+    }
+
+    public Optional&lt;Cliente&gt; getClienteByEmail(String email) {
+<span class="fc" id="L40">        return clienteRepository.findByEmail(email);</span>
+    }
+
+    public Optional&lt;Cliente&gt; updateCliente(Long id, Cliente clienteDetails) {
+<span class="fc" id="L44">        Optional&lt;Cliente&gt; optionalCliente = clienteRepository.findById(id);</span>
+        
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (optionalCliente.isPresent()) {</span>
+<span class="fc" id="L47">            Cliente existingCliente = optionalCliente.get();</span>
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">            if (clienteDetails.getNombre() != null) existingCliente.setNombre(clienteDetails.getNombre());</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">            if (clienteDetails.getApellido() != null) existingCliente.setApellido(clienteDetails.getApellido());</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">            if (clienteDetails.getTelefono() != null) existingCliente.setTelefono(clienteDetails.getTelefono());</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">            if (clienteDetails.getDireccion() != null) existingCliente.setDireccion(clienteDetails.getDireccion());</span>
+            
+<span class="fc" id="L53">            log.info(&quot;Cliente actualizado correctamente en BD con id: {}&quot;, id);</span>
+<span class="fc" id="L54">            return Optional.of(clienteRepository.save(existingCliente));</span>
+        }
+<span class="fc" id="L56">        log.warn(&quot;Intento de actualizar cliente inexistente con id: {}&quot;, id);</span>
+<span class="fc" id="L57">        return Optional.empty();</span>
+    }
+
+    public boolean deleteCliente(Long id) {
+<span class="fc" id="L61">        Optional&lt;Cliente&gt; cliente = clienteRepository.findById(id);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if (cliente.isPresent()) {</span>
+<span class="fc" id="L63">            clienteRepository.delete(cliente.get());</span>
+<span class="fc" id="L64">            log.info(&quot;Cliente eliminado con id: {}&quot;, id);</span>
+<span class="fc" id="L65">            return true;</span>
+        }
+<span class="fc" id="L67">        log.warn(&quot;Intento de eliminar cliente inexistente con id: {}&quot;, id);</span>
+<span class="fc" id="L68">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
